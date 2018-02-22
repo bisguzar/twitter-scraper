@@ -37,8 +37,10 @@ First, install markovify:
 .. code-block:: pycon
 
     >>> import markovify
+    
     >>> tweets = '\n'.join([t for t in get_tweets('kennethreitz', pages=25)])
     >>> text_model = markovify.Text(tweets)
+    
     >>> print(text_model.make_short_sentence(140))
     Wtf you can’t use APFS on a prototype for “django-heroku”, which does a lot out of me.
 
