@@ -28,6 +28,6 @@ It appears you can ask for up to 25 pages of tweets reliably (~486 tweets).
 Installation
 ============
 
-.. code-block::shell:
+::
 
     $ pipenv install twitter_scraper
