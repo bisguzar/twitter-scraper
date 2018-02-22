@@ -12,7 +12,7 @@ Very useful for making markov chains.
 Usage
 =====
 
-.. code-block::pycon:
+.. code-block:pycon
 
     >>> from twitter_scraper import get_tweets
 
