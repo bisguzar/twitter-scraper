@@ -55,6 +55,6 @@ Installation
 
 .. code-block:: shell
 
-    $ pipenv install twitter_scraper
+    $ pipenv install twitter-scraper
 
 Only Python 3.6 is supported.
