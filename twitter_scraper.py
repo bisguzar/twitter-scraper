@@ -16,15 +16,18 @@ def get_tweets(user, pages=25):
 
         while pages > 0:
             d = pq(r.json()['items_html'])
-
-            tweets = [tweet.text for tweet in d('.tweet-text')]
+            tweets = [tweet.text_content() for tweet in d('.tweet-text')]
             last_tweet = d('.stream-item')[-1].attrib['data-item-id']
 
             for tweet in tweets:
+                if 'http' in tweet:
+                    tweet = tweet.split('http',1)
+                    tweet = tweet[0] + ' http' + tweet[1]
                 if tweet:
                     yield tweet
 
-            r = requests.get(url, params={'max_position': last_tweet}, headers=headers)
+            r = requests.get(
+            url, params={'max_position': last_tweet}, headers=headers)
             pages += -1
 
     yield from gen_tweets(pages)
