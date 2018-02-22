@@ -1,5 +1,6 @@
 import requests
 from pyquery import PyQuery as pq
+import re
 
 def get_tweets(user, pages=25):
     url = f'https://twitter.com/i/profiles/show/{user}/timeline/tweets?include_available_features=1&include_entities=1&include_new_items_bar=true'
@@ -16,15 +17,16 @@ def get_tweets(user, pages=25):
 
         while pages > 0:
             d = pq(r.json()['items_html'])
-
-            tweets = [tweet.text for tweet in d('.tweet-text')]
+            tweets = [tweet.text_content() for tweet in d('.tweet-text')]
             last_tweet = d('.stream-item')[-1].attrib['data-item-id']
 
             for tweet in tweets:
+                tweet = re.sub('http', ' http', tweet, 1)
                 if tweet:
                     yield tweet
 
-            r = requests.get(url, params={'max_position': last_tweet}, headers=headers)
+            r = requests.get(
+            url, params={'max_position': last_tweet}, headers=headers)
             pages += -1
 
     yield from gen_tweets(pages)
