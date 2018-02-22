@@ -3,7 +3,6 @@ Twitter Scraper
 
 Twitter's API is annoying to work with, and has lots of limitations —
 luckily their frontend (JavaScript) has it's own API, which I reverse–engineered.
-
 No API rate limits. No restrictions. Extremely fast.
 
 You can use this library to get the text of any user's Tweets trivially.
