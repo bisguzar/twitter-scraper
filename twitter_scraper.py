@@ -17,7 +17,7 @@ def get_tweets(user, pages=25):
         while pages > 0:
             d = pq(r.json()['items_html'])
 
-            tweets = [tweet.text for tweet in d('.tweet-text')]
+            tweets = [tweet.text_content() for tweet in d('.tweet-text')]
             last_tweet = d('.stream-item')[-1].attrib['data-item-id']
 
             for tweet in tweets:
