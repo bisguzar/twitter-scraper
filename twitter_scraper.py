@@ -1,5 +1,6 @@
 import requests
 from pyquery import PyQuery as pq
+import re
 
 def get_tweets(user, pages=25):
     url = f'https://twitter.com/i/profiles/show/{user}/timeline/tweets?include_available_features=1&include_entities=1&include_new_items_bar=true'
@@ -20,9 +21,7 @@ def get_tweets(user, pages=25):
             last_tweet = d('.stream-item')[-1].attrib['data-item-id']
 
             for tweet in tweets:
-                if 'http' in tweet:
-                    tweet = tweet.split('http',1)
-                    tweet = tweet[0] + ' http' + tweet[1]
+                tweet = re.sub('http', ' http', tweet, 1)
                 if tweet:
                     yield tweet
 
