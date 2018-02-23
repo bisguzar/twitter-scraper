@@ -1,3 +1,4 @@
+import re
 import requests
 from pyquery import PyQuery as pq
 
@@ -23,7 +24,7 @@ def get_tweets(user, pages=25):
 
             for tweet in tweets:
                 if tweet:
-                    yield tweet
+                    yield re.sub('http', ' http', tweet, 1)
 
             r = requests.get(
                 url, params={'max_position': last_tweet}, headers=headers)
