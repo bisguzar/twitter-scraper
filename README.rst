@@ -44,12 +44,6 @@ First, install markovify:
     >>> print(text_model.make_short_sentence(140))
     Wtf you can’t use APFS on a prototype for “django-heroku”, which does a lot out of me.
 
-Notes
-=====
-
-- Due to the user agent being sent, there's no way for Twitter to know that this isn't a web browser sending these requests (unless they're **extremely** clever).
-- Links in tweets are currently excluded (pull requests accepted!)
-
 Installation
 ============
 
