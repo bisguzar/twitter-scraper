@@ -20,7 +20,7 @@ def get_tweets(user, pages=25):
             try:
                 d = pq(r.json()['items_html'])
             except (ParserError, KeyError):
-                raise Exception(
+                raise ValueError(
                     f'Oops! Either "{user}" does not exist or private.')
 
             tweets = [tweet.text_content() for tweet in d('.tweet-text')]
