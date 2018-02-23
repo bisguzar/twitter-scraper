@@ -1,3 +1,4 @@
+from lxml.etree import ParserError
 import requests
 from pyquery import PyQuery as pq
 
@@ -16,7 +17,11 @@ def get_tweets(user, pages=25):
         r = requests.get(url, headers=headers)
 
         while pages > 0:
-            d = pq(r.json()['items_html'])
+            try:
+                d = pq(r.json()['items_html'])
+            except (ParserError, KeyError):
+                print(f'Oops! Either "{user}" does not exist or private.')
+                break
 
             tweets = [tweet.text_content() for tweet in d('.tweet-text')]
             last_tweet = d('.stream-item')[-1].attrib['data-item-id']
