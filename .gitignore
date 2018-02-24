@@ -1,3 +1,11 @@
 *.pyc
 __pycache__/
 *.swp
+
+/build/
+
+/dist/
+
+/t.py
+
+/twitter_scraper.egg-info/
