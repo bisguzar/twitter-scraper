@@ -22,7 +22,7 @@ def get_tweets(user, pages=25):
                 d = pq(r.json()['items_html'])
             except (ParserError, KeyError):
                 raise ValueError(
-                    f'Oops! Either "{user}" does not exist or private.')
+                    f'Oops! Either "{user}" does not exist or is private.')
 
             tweets = [tweet.text_content() for tweet in d('.tweet-text')]
             last_tweet = d('.stream-item')[-1].attrib['data-item-id']
