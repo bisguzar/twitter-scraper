@@ -1,10 +1,12 @@
 import re
-import requests
-from lxml.etree import ParserError
-from pyquery import PyQuery as pq
+from requests_html import Session, HTML
+
+session = Session()
 
 
 def get_tweets(user, pages=25):
+    """Gets tweets for a given user, via the Twitter frontend API."""
+
     url = f'https://twitter.com/i/profiles/show/{user}/timeline/tweets?include_available_features=1&include_entities=1&include_new_items_bar=true'
     headers = {
         'Accept': 'application/json, text/javascript, */*; q=0.01',
@@ -15,23 +17,23 @@ def get_tweets(user, pages=25):
     }
 
     def gen_tweets(pages):
-        r = requests.get(url, headers=headers)
+        r = session.get(url, headers=headers)
 
         while pages > 0:
             try:
-                d = pq(r.json()['items_html'])
-            except (ParserError, KeyError):
+                html = HTML(html=r.json()['items_html'], url='bunk', default_encoding='utf-8')
+            except KeyError:
                 raise ValueError(
                     f'Oops! Either "{user}" does not exist or private.')
 
-            tweets = [tweet.text_content() for tweet in d('.tweet-text')]
-            last_tweet = d('.stream-item')[-1].attrib['data-item-id']
+            tweets = [tweet.full_text for tweet in html.find('.tweet-text')]
+            last_tweet = html.find('.stream-item')[-1].attrs['data-item-id']
 
             for tweet in tweets:
                 if tweet:
                     yield re.sub('http', ' http', tweet, 1)
 
-            r = requests.get(
+            r = session.get(
                 url, params={'max_position': last_tweet}, headers=headers)
             pages += -1
 
