@@ -26,12 +26,21 @@ def get_tweets(user, pages=25):
                 raise ValueError(
                     f'Oops! Either "{user}" does not exist or private.')
 
-            tweets = [tweet.full_text for tweet in html.find('.tweet-text')]
+            tweets = []
+            for tweet in html.find('.stream-item'):
+                text = tweet.find('.tweet-text')[0].full_text
+                interactions = [x.text for x in tweet.find('.ProfileTweet-actionCountForPresentation')]
+                replies = int(interactions[0]) if interactions[0] else 0
+                retweets = int(interactions[2]) if interactions[2] else 0
+                likes = int(interactions[4]) if interactions[4] else 0
+                tweets.append({'text': text, 'replies': replies, 'retweets': retweets, 'likes': likes})
+                
             last_tweet = html.find('.stream-item')[-1].attrs['data-item-id']
 
             for tweet in tweets:
                 if tweet:
-                    yield re.sub('http', ' http', tweet, 1)
+                    tweet['text'] = re.sub('http', ' http', tweet['text'], 1)
+                    yield tweet
 
             r = session.get(
                 url, params={'max_position': last_tweet}, headers=headers)
