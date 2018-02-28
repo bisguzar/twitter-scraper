@@ -1,7 +1,7 @@
 import re
-from requests_html import Session, HTML
+from requests_html import HTMLSession, HTML
 
-session = Session()
+session = HTMLSession()
 
 
 def get_tweets(user, pages=25):
