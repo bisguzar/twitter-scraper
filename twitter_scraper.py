@@ -1,5 +1,5 @@
 import re
-from requests_html import HTMLSession, HTML
+from requests_html import HTML, HTMLSession
 
 session = HTMLSession()
 
