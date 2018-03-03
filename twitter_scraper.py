@@ -1,5 +1,5 @@
 import re
-from requests_html import HTML, HTMLSession
+from requests_html import HTMLSession, HTML
 
 session = HTMLSession()
 
@@ -24,7 +24,7 @@ def get_tweets(user, pages=25):
                 html = HTML(html=r.json()['items_html'], url='bunk', default_encoding='utf-8')
             except KeyError:
                 raise ValueError(
-                    f'Oops! Either "{user}" does not exist or private.')
+                    f'Oops! Either "{user}" does not exist or is private.')
 
             tweets = []
             for tweet in html.find('.stream-item'):
