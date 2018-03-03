@@ -24,7 +24,7 @@ def get_tweets(user, pages=25):
                 html = HTML(html=r.json()['items_html'], url='bunk', default_encoding='utf-8')
             except KeyError:
                 raise ValueError(
-                    f'Oops! Either "{user}" does not exist or private.')
+                    f'Oops! Either "{user}" does not exist or is private.')
 
             tweets = [tweet.full_text for tweet in html.find('.tweet-text')]
             last_tweet = html.find('.stream-item')[-1].attrs['data-item-id']
