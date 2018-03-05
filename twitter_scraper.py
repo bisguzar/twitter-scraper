@@ -7,7 +7,10 @@ session = HTMLSession()
 def get_tweets(user, pages=25):
     """Gets tweets for a given user, via the Twitter frontend API."""
 
-    url = f'https://twitter.com/i/profiles/show/{user}/timeline/tweets?include_available_features=1&include_entities=1&include_new_items_bar=true'
+    url = 'https://twitter.com/i/profiles/show/{user}/timeline/tweets?' \
+          'include_available_features=1&' \
+          'include_entities=1&' \
+          'include_new_items_bar=true'.format(user=user)
     headers = {
         'Accept': 'application/json, text/javascript, */*; q=0.01',
         'Referer': f'https://twitter.com/{user}',
@@ -24,7 +27,8 @@ def get_tweets(user, pages=25):
                 html = HTML(html=r.json()['items_html'], url='bunk', default_encoding='utf-8')
             except KeyError:
                 raise ValueError(
-                    f'Oops! Either "{user}" does not exist or is private.')
+                    'Oops! Either "{user}" does not exist or is private.'.
+                    format(user=user))
 
             tweets = []
             for tweet in html.find('.stream-item'):

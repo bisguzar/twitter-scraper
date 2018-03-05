@@ -51,7 +51,7 @@ Installation
 
     $ pipenv install twitter-scraper
 
-Only Python 3.6+ is supported
+Only Python 3 is supported
 
 
 LICENSE
