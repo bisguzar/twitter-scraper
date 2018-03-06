@@ -1,5 +1,6 @@
 import re
 from requests_html import HTMLSession, HTML
+from datetime import datetime
 
 session = HTMLSession()
 
@@ -29,11 +30,13 @@ def get_tweets(user, pages=25):
             tweets = []
             for tweet in html.find('.stream-item'):
                 text = tweet.find('.tweet-text')[0].full_text
+                tweetId = tweet.find('.js-permalink')[0].attrs['data-conversation-id']
+                time = datetime.fromtimestamp(int(tweet.find('._timestamp')[0].attrs['data-time-ms'])/1000.0)
                 interactions = [x.text for x in tweet.find('.ProfileTweet-actionCountForPresentation')]
                 replies = int(interactions[0]) if interactions[0] else 0
                 retweets = int(interactions[2]) if interactions[2] else 0
                 likes = int(interactions[4]) if interactions[4] else 0
-                tweets.append({'text': text, 'replies': replies, 'retweets': retweets, 'likes': likes})
+                tweets.append({'tweetId': tweetId, 'time': time, 'text': text, 'replies': replies, 'retweets': retweets, 'likes': likes})
                 
             last_tweet = html.find('.stream-item')[-1].attrs['data-item-id']
 
