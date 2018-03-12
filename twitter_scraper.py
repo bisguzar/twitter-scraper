@@ -26,15 +26,16 @@ def get_tweets(user, pages=25):
                 raise ValueError(
                     f'Oops! Either "{user}" does not exist or is private.')
 
+            comma = ","
             tweets = []
             for tweet in html.find('.stream-item'):
                 text = tweet.find('.tweet-text')[0].full_text
                 tweetId = tweet.find('.js-permalink')[0].attrs['data-conversation-id']
                 time = datetime.fromtimestamp(int(tweet.find('._timestamp')[0].attrs['data-time-ms'])/1000.0)
                 interactions = [x.text for x in tweet.find('.ProfileTweet-actionCount')]
-                replies = int(interactions[0].split(" ")[0])
-                retweets = int(interactions[1].split(" ")[0])
-                likes = int(interactions[2].split(" ")[0])
+                replies = int(interactions[0].split(" ")[0].replace(comma, ""))
+                retweets = int(interactions[1].split(" ")[0].replace(comma, ""))
+                likes = int(interactions[2].split(" ")[0].replace(comma, ""))
                 tweets.append({'tweetId': tweetId, 'time': time, 'text': text, 'replies': replies, 'retweets': retweets, 'likes': likes})
                 
             last_tweet = html.find('.stream-item')[-1].attrs['data-item-id']
@@ -49,3 +50,4 @@ def get_tweets(user, pages=25):
             pages += -1
 
     yield from gen_tweets(pages)
+
