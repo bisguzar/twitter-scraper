@@ -4,6 +4,7 @@ from datetime import datetime
 
 session = HTMLSession()
 
+
 def get_tweets(user, pages=25):
     """Gets tweets for a given user, via the Twitter frontend API."""
 
@@ -21,7 +22,8 @@ def get_tweets(user, pages=25):
 
         while pages > 0:
             try:
-                html = HTML(html=r.json()['items_html'], url='bunk', default_encoding='utf-8')
+                html = HTML(html=r.json()['items_html'],
+                            url='bunk', default_encoding='utf-8')
             except KeyError:
                 raise ValueError(
                     f'Oops! Either "{user}" does not exist or is private.')
@@ -30,14 +32,28 @@ def get_tweets(user, pages=25):
             tweets = []
             for tweet in html.find('.stream-item'):
                 text = tweet.find('.tweet-text')[0].full_text
-                tweetId = tweet.find('.js-permalink')[0].attrs['data-conversation-id']
-                time = datetime.fromtimestamp(int(tweet.find('._timestamp')[0].attrs['data-time-ms'])/1000.0)
-                interactions = [x.text for x in tweet.find('.ProfileTweet-actionCount')]
+                tweetId = tweet.find(
+                    '.js-permalink')[0].attrs['data-conversation-id']
+                time = datetime.fromtimestamp(
+                    int(tweet.find('._timestamp')[0].attrs['data-time-ms'])/1000.0)
+                interactions = [x.text for x in tweet.find(
+                    '.ProfileTweet-actionCount')]
                 replies = int(interactions[0].split(" ")[0].replace(comma, ""))
-                retweets = int(interactions[1].split(" ")[0].replace(comma, ""))
+                retweets = int(interactions[1].split(" ")[
+                               0].replace(comma, ""))
                 likes = int(interactions[2].split(" ")[0].replace(comma, ""))
-                tweets.append({'tweetId': tweetId, 'time': time, 'text': text, 'replies': replies, 'retweets': retweets, 'likes': likes})
-                
+                hashtags = [hashtag_node.full_text for hashtag_node in tweet.find('.twitter-hashtag')]
+                urls = [url_node.attrs['data-expanded-url'] for url_node in tweet.find('a.twitter-timeline-link:not(.u-hidden)')]
+                photos = [photo_node.attrs['data-image-url'] for photo_node in tweet.find('.AdaptiveMedia-photoContainer')]
+                tweets.append({'tweetId': tweetId, 'time': time, 'text': text,
+                               'replies': replies, 'retweets': retweets, 'likes': likes, 
+                               'entries': {
+                                    'hashtags': hashtags,
+                                    'urls': urls,
+                                    'photos': photos
+                                }
+                               })
+
             last_tweet = html.find('.stream-item')[-1].attrs['data-item-id']
 
             for tweet in tweets:
@@ -46,8 +62,7 @@ def get_tweets(user, pages=25):
                     yield tweet
 
             r = session.get(
-                url, params={'max_position': last_tweet}, headers=headers)
+                url, params = {'max_position': last_tweet}, headers = headers)
             pages += -1
 
     yield from gen_tweets(pages)
-
