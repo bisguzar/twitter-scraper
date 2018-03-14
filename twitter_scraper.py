@@ -42,8 +42,13 @@ def get_tweets(user, pages=25):
                 retweets = int(interactions[1].split(" ")[
                                0].replace(comma, ""))
                 likes = int(interactions[2].split(" ")[0].replace(comma, ""))
+                hashtags = [hashtag_node.full_text for hashtag_node in tweet.find('.twitter-hashtag')]
                 tweets.append({'tweetId': tweetId, 'time': time, 'text': text,
-                               'replies': replies, 'retweets': retweets, 'likes': likes})
+                               'replies': replies, 'retweets': retweets, 'likes': likes, 
+                               'entries': {
+                                    'hashtags': hashtags
+                                }
+                               })
 
             last_tweet = html.find('.stream-item')[-1].attrs['data-item-id']
 
@@ -53,7 +58,7 @@ def get_tweets(user, pages=25):
                     yield tweet
 
             r = session.get(
-                url, params={'max_position': last_tweet}, headers=headers)
+                url, params = {'max_position': last_tweet}, headers = headers)
             pages += -1
 
     yield from gen_tweets(pages)
