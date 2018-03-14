@@ -43,10 +43,12 @@ def get_tweets(user, pages=25):
                                0].replace(comma, ""))
                 likes = int(interactions[2].split(" ")[0].replace(comma, ""))
                 hashtags = [hashtag_node.full_text for hashtag_node in tweet.find('.twitter-hashtag')]
+                urls = [url_node.attrs['data-expanded-url'] for url_node in tweet.find('a.twitter-timeline-link:not(.u-hidden)')]
                 tweets.append({'tweetId': tweetId, 'time': time, 'text': text,
                                'replies': replies, 'retweets': retweets, 'likes': likes, 
                                'entries': {
-                                    'hashtags': hashtags
+                                    'hashtags': hashtags,
+                                    'urls': urls
                                 }
                                })
 
