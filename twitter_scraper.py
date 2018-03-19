@@ -36,7 +36,6 @@ def get_tweets(user, tweets=100, retweets=True, maxpages=25):
             for tweet in html.find('.stream-item'):
                 data = tweet.find('.tweet-text')
                 if len(data) > 0:
-                    found += -1
                     text = tweet.find('.tweet-text')[0].full_text
                     tweetId = tweet.find(
                         '.js-permalink')[0].attrs['data-conversation-id']
@@ -62,6 +61,7 @@ def get_tweets(user, tweets=100, retweets=True, maxpages=25):
                     photos = [photo_node.attrs['data-image-url']
                               for photo_node in tweet.find('.AdaptiveMedia-photoContainer')]
                     if retweets or orginalUserId.lower() == user.lower():
+                        found += -1
                         tweets.append({'tweetId': tweetId, 'time': time, 'user': user, 'orginaluser': orginalUserId,
                                         'text': text, 'replies': replies, 'retweets': retweets, 'likes': likes,
                                        'entries': {
