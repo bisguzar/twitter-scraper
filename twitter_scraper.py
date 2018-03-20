@@ -46,12 +46,21 @@ def get_tweets(user, pages=25):
                 hashtags = [hashtag_node.full_text for hashtag_node in tweet.find('.twitter-hashtag')]
                 urls = [url_node.attrs['data-expanded-url'] for url_node in tweet.find('a.twitter-timeline-link:not(.u-hidden)')]
                 photos = [photo_node.attrs['data-image-url'] for photo_node in tweet.find('.AdaptiveMedia-photoContainer')]
+                
+                videos = []
+                video_nodes = tweet.find(".PlayableMedia-player")
+                for node in video_nodes:
+                    styles = node.attrs['style'].split()
+                    for style in styles:
+                        if style.startswith('background'):
+                            tmp = style.split('/')[-1]
+                            video_id = tmp[:tmp.index('.jpg')]
+                            videos.append({'id': video_id})
                 tweets.append({'tweetId': tweetId, 'time': time, 'text': text,
                                'replies': replies, 'retweets': retweets, 'likes': likes, 
                                'entries': {
-                                    'hashtags': hashtags,
-                                    'urls': urls,
-                                    'photos': photos
+                                    'hashtags': hashtags, 'urls': urls,
+                                    'photos': photos, 'videos': videos
                                 }
                                })
 
