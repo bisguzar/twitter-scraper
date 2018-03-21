@@ -17,7 +17,7 @@ DESCRIPTION = 'Scrape the Twitter Frontend API without authentication.'
 URL = 'https://github.com/kennethreitz/twitter-scraper'
 EMAIL = 'me@kennethreitz.org'
 AUTHOR = 'Kenneth Reitz'
-VERSION = '0.2.1'
+VERSION = '0.3.0'
 
 # What packages are required for this module to be executed?
 REQUIRED = [
