@@ -17,7 +17,7 @@ Usage
     >>> from twitter_scraper import get_tweets
 
     >>> for tweet in get_tweets('kennethreitz', pages=1):
-    >>>     print(tweet)
+    >>>     print(tweet['text'])
     P.S. your API is a user interface
     s3monkey just hit 100 github stars! Thanks, y’all!
     I’m not sure what this /dev/fd/5 business is, but it’s driving me up the wall.
@@ -37,10 +37,10 @@ First, install markovify:
 .. code-block:: pycon
 
     >>> import markovify
-    
-    >>> tweets = '\n'.join([t for t in get_tweets('kennethreitz', pages=25)])
+
+    >>> tweets = '\n'.join([t['text'] for t in get_tweets('kennethreitz', pages=25)])
     >>> text_model = markovify.Text(tweets)
-    
+
     >>> print(text_model.make_short_sentence(140))
     Wtf you can’t use APFS on a prototype for “django-heroku”, which does a lot out of me.
 
