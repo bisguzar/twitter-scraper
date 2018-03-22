@@ -35,7 +35,10 @@ def get_tweets(user, pages=25):
                 tweet_text_elements = tweet.find('.tweet-text')
                 if not tweet_text_elements:
                     continue
-                text = tweet_text_elements[0].full_text
+                text_container = tweet_text_elements[0]
+                for hidden_child in text_container.lxml.find_class('u-hidden'):
+                    hidden_child.drop_tree()
+                text = text_container.full_text.strip()
                 tweetId = tweet.find(
                     '.js-permalink')[0].attrs['data-conversation-id']
                 time = datetime.fromtimestamp(
