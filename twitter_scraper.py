@@ -54,7 +54,7 @@ def get_tweets(user, pages=25):
                     for style in styles:
                         if style.startswith('background'):
                             tmp = style.split('/')[-1]
-                            video_id = tmp[:tmp.index('.jpg')]
+                            video_id = '.'.join(tmp.split('.')[:-1])
                             videos.append({'id': video_id})
                 tweets.append({'tweetId': tweetId, 'time': time, 'text': text,
                                'replies': replies, 'retweets': retweets, 'likes': likes, 
