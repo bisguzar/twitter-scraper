@@ -1,6 +1,7 @@
 import re
 from requests_html import HTMLSession, HTML
 from datetime import datetime
+import json
 
 session = HTMLSession()
 
@@ -76,3 +77,66 @@ def get_tweets(user, pages=25):
             pages += -1
 
     yield from gen_tweets(pages)
+    
+def _get_tweet_text(result, tweet_from):
+    """parse a result li element to extract the text"""
+    text = ''
+    for div in result.find('div'):
+        reply_to = div.attrs.get('data-reply-to-users-json')
+        if reply_to:
+            obj = json.loads(reply_to.encode(errors='ignore'))
+            for user in obj:
+                if user['screen_name'] != tweet_from:
+                    text += f'@{user["screen_name"]} '
+
+    return text + result.find('p')[0].full_text
+
+def search(query):
+    """perform Twitter search without auth"""
+    url = 'https://twitter.com/i/search/timeline'
+    params = {
+        'vertical': 'news',
+        'src': 'typd',
+        'include_entities': 0,
+        'composed_count': 0,
+        'oldest_unread_id': 0,
+        'q': query,
+        'f': 'realtime',
+    }
+    resp = session.get(url, params=params)
+
+    items_html = resp.json()['items_html']
+    html = HTML(
+        html=items_html,
+        url='bunk', default_encoding='utf-8')
+
+    tweets = []
+    for result in html.find('li'):
+        try:
+            timestamp = None
+            for link in result.find('span'):
+                timestamp = link.attrs.get('data-time')
+                if timestamp:
+                    break
+            div = result.find('div')[0]
+            screen_name = div.attrs['data-screen-name']
+            tweet = {
+                'id': int(result.attrs['data-item-id']),
+                'id_str': str(result.attrs['data-item-id']),
+                'url': f'https:/twitter.com{div.attrs["data-permalink-path"]}',
+                'timestamp': int(timestamp),
+                'created_at': datetime.fromtimestamp(int(timestamp)).strftime('%a %b %d %H:%M:%S +0000 %Y'),
+                'user':{
+                    'screen_name': screen_name,
+                    'id_str': str(div.attrs['data-user-id']),
+                    'name': div.attrs['data-name'],
+                }
+            }
+            tweet['text'] = _get_tweet_text(result, tweet_from=screen_name)
+        except KeyError:
+            continue
+        except IndexError:
+            continue
+        
+        tweets.append(tweet)
+    return tweets
