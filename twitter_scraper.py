@@ -1,17 +1,23 @@
 import re
 from requests_html import HTMLSession, HTML
+from urllib.parse import quote
 from datetime import datetime
 
 session = HTMLSession()
 
 
-def get_tweets(user, pages=25):
+def get_tweets(query, pages=25):
     """Gets tweets for a given user, via the Twitter frontend API."""
-
-    url = f'https://twitter.com/i/profiles/show/{user}/timeline/tweets?include_available_features=1&include_entities=1&include_new_items_bar=true'
+    after_part = f'include_available_features=1&include_entities=1&include_new_items_bar=true'
+    if query.startswith('#'):
+        query = quote(query)
+        url = f'https://twitter.com/i/search/timeline?f=tweets&vertical=default&q={query}&src=tyah&reset_error_state=false&'
+    else:
+        url = f'https://twitter.com/i/profiles/show/{query}/timeline/tweets?'
+    url += after_part
     headers = {
         'Accept': 'application/json, text/javascript, */*; q=0.01',
-        'Referer': f'https://twitter.com/{user}',
+        'Referer': f'https://twitter.com/{query}',
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/603.3.8 (KHTML, like Gecko) Version/10.1.2 Safari/603.3.8',
         'X-Twitter-Active-User': 'yes',
         'X-Requested-With': 'XMLHttpRequest'
@@ -26,7 +32,7 @@ def get_tweets(user, pages=25):
                             url='bunk', default_encoding='utf-8')
             except KeyError:
                 raise ValueError(
-                    f'Oops! Either "{user}" does not exist or is private.')
+                    f'Oops! Either "{query}" does not exist or is private.')
 
             comma = ","
             dot = "."
@@ -65,14 +71,19 @@ def get_tweets(user, pages=25):
                                })
 
             last_tweet = html.find('.stream-item')[-1].attrs['data-item-id']
+            first_tweet = html.find('.stream-item')[0].attrs['data-item-id']
 
             for tweet in tweets:
                 if tweet:
                     tweet['text'] = re.sub('http', ' http', tweet['text'], 1)
                     yield tweet
 
+            if query.startswith('%'):
+                max_pos = f'TWEET-{last_tweet}-{first_tweet}'
+            else:
+                max_pos = last_tweet
             r = session.get(
-                url, params = {'max_position': last_tweet}, headers = headers)
+                url, params = {'max_position': max_pos}, headers = headers)
             pages += -1
 
     yield from gen_tweets(pages)
