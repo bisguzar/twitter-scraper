@@ -14,7 +14,8 @@ def get_tweets(user, pages=25):
         'Referer': f'https://twitter.com/{user}',
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/603.3.8 (KHTML, like Gecko) Version/10.1.2 Safari/603.3.8',
         'X-Twitter-Active-User': 'yes',
-        'X-Requested-With': 'XMLHttpRequest'
+        'X-Requested-With': 'XMLHttpRequest',
+        'Accept-Language': 'en-US'
     }
 
     def gen_tweets(pages):
@@ -29,7 +30,6 @@ def get_tweets(user, pages=25):
                     f'Oops! Either "{user}" does not exist or is private.')
 
             comma = ","
-            dot = "."
             tweets = []
             for tweet in html.find('.stream-item'):
                 text = tweet.find('.tweet-text')[0].full_text
@@ -39,10 +39,9 @@ def get_tweets(user, pages=25):
                     int(tweet.find('._timestamp')[0].attrs['data-time-ms'])/1000.0)
                 interactions = [x.text for x in tweet.find(
                     '.ProfileTweet-actionCount')]
-                replies = int(interactions[0].split(" ")[0].replace(comma, "").replace(dot,""))
-                retweets = int(interactions[1].split(" ")[
-                               0].replace(comma, "").replace(dot,""))
-                likes = int(interactions[2].split(" ")[0].replace(comma, "").replace(dot,""))
+                replies = int(interactions[0].split(" ")[0].replace(comma, ""))
+                retweets = int(interactions[1].split(" ")[0].replace(comma, ""))
+                likes = int(interactions[2].split(" ")[0].replace(comma, ""))
                 hashtags = [hashtag_node.full_text for hashtag_node in tweet.find('.twitter-hashtag')]
                 urls = [url_node.attrs['data-expanded-url'] for url_node in tweet.find('a.twitter-timeline-link:not(.u-hidden)')]
                 photos = [photo_node.attrs['data-image-url'] for photo_node in tweet.find('.AdaptiveMedia-photoContainer')]
