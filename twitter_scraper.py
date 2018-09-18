@@ -32,7 +32,10 @@ def get_tweets(user, pages=25):
             dot = "."
             tweets = []
             for tweet in html.find('.stream-item'):
-                text = tweet.find('.tweet-text')[0].full_text
+                tweet_text_elements = tweet.find('.tweet-text')
+                if not tweet_text_elements:
+                    continue
+                text = tweet_text_elements[0].full_text
                 tweetId = tweet.find(
                     '.js-permalink')[0].attrs['data-conversation-id']
                 time = datetime.fromtimestamp(
