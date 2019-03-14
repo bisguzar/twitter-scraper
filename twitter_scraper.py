@@ -31,7 +31,7 @@ def get_tweets(user, pages=25):
             comma = ","
             dot = "."
             tweets = []
-            for tweet in html.find('.stream-item'):
+            for tweet in html.find('html > .stream-item'):
                 text = tweet.find('.tweet-text')[0].full_text
                 tweetId = tweet.find(
                     '.js-permalink')[0].attrs['data-conversation-id']
