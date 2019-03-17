@@ -24,14 +24,19 @@ class TestFamilyUnderscore(unittest.TestCase):
 
 
 class TestPages(unittest.TestCase):
-    """
-    In some cases it only crawls 2~5 pages
-    """
 
     def test_25pages(self):
+        """I don't know why but in some cases it only crawls 2~5 pages"""
         user = 'kennethreitz'
-        tweets = list(get_tweets(user=user, pages=25))
+        tweets = list(get_tweets(user=user, pages=2))
         self.assertGreater(len(tweets), 486)
+
+    def test_languages(self):
+        user = 'fcbarcelona_jp'
+        tweets = list(get_tweets(user=user, pages=1))
+        self.assertIn('likes', tweets[0])
+        self.assertIsInstance(tweets[0]['replies'], int)
+        self.assertGreaterEqual(tweets[1]['retweets'], 0)
 
 
 if __name__ == '__main__':
