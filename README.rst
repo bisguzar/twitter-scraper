@@ -57,6 +57,12 @@ Installation
 
 Only Python 3.6+ is supported
 
+Test
+====
+
+.. code-block:: shell
+
+    $ python test.py
 
 LICENSE
 =======
