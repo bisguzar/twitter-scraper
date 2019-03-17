@@ -14,7 +14,8 @@ def get_tweets(user, pages=25):
         'Referer': f'https://twitter.com/{user}',
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/603.3.8 (KHTML, like Gecko) Version/10.1.2 Safari/603.3.8',
         'X-Twitter-Active-User': 'yes',
-        'X-Requested-With': 'XMLHttpRequest'
+        'X-Requested-With': 'XMLHttpRequest',
+        'Accept-Language': 'en-US'
     }
 
     def gen_tweets(pages):
