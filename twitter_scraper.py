@@ -106,7 +106,8 @@ def get_tweets(user, pages=25):
 
             for tweet in tweets:
                 if tweet:
-                    tweet['text'] = re.sub('http', ' http', tweet['text'], 1)
+                    tweet['text'] = re.sub(r'\Shttp', ' http', tweet['text'], 1)
+                    tweet['text'] = re.sub(r'\Spic\.twitter', ' pic.twitter', tweet['text'], 1)
                     yield tweet
 
             r = session.get(url, params={'max_position': last_tweet}, headers=headers)
