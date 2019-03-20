@@ -32,7 +32,7 @@ def get_tweets(user, pages=25):
             comma = ","
             dot = "."
             tweets = []
-            for tweet in html.find('.stream-item'):
+            for tweet in html.find('html > .stream-item'):
                 # 10~11 html elements have `.stream-item` class and also their `data-item-type` is `tweet`
                 # but their content doesn't look like a tweet's content
                 try:
