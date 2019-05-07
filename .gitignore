@@ -3,7 +3,7 @@ __pycache__/
 *.swp
 .vscode
 /build/
-
+./idea
 /dist/
 
 /t.py
