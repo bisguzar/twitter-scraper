@@ -79,6 +79,9 @@ def get_tweets(user, pages=25):
                     for photo_node in tweet.find('.AdaptiveMedia-photoContainer')
                 ]
 
+                is_retweet = True if tweet.find('.js-stream-tweet')[0].attrs.get('data-retweet-id', None) \
+                    else False
+
                 videos = []
                 video_nodes = tweet.find(".PlayableMedia-player")
                 for node in video_nodes:
@@ -91,6 +94,7 @@ def get_tweets(user, pages=25):
 
                 tweets.append({
                     'tweetId': tweet_id,
+                    'isRetweet': is_retweet,
                     'time': time,
                     'text': text,
                     'replies': replies,
