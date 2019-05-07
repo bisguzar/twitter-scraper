@@ -40,7 +40,7 @@ def get_tweets(user, pages=25):
                 except IndexError:  # issue #50
                     continue
 
-                tweet_id = tweet.find('.js-permalink')[0].attrs['data-conversation-id']
+                tweet_id = tweet.attrs['data-item-id']
 
                 time = datetime.fromtimestamp(int(tweet.find('._timestamp')[0].attrs['data-time-ms']) / 1000.0)
 
