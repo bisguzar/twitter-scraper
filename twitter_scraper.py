@@ -1,6 +1,7 @@
 import re
 from requests_html import HTMLSession, HTML
 from datetime import datetime
+from lxml.etree import ParserError
 
 session = HTMLSession()
 
@@ -28,6 +29,8 @@ def get_tweets(user, pages=25):
             except KeyError:
                 raise ValueError(
                     f'Oops! Either "{user}" does not exist or is private.')
+            except ParserError:
+                break
 
             comma = ","
             dot = "."
