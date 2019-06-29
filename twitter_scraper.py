@@ -2,9 +2,12 @@ import re
 from requests_html import HTMLSession, HTML
 from datetime import datetime
 from lxml.etree import ParserError
+import mechanicalsoup
 
 session = HTMLSession()
 
+browser = mechanicalsoup.StatefulBrowser()
+browser.addheaders = [('User-agent', 'Firefox')]
 
 def get_tweets(user, pages=25):
     """Gets tweets for a given user, via the Twitter frontend API."""
@@ -121,3 +124,40 @@ def get_tweets(user, pages=25):
             pages += -1
 
     yield from gen_tweets(pages)
+
+def read_profile(user):
+    """Pulls information about a twitter user by scraping their profile page.
+Returns a dictionary containing this information."""
+    
+    browser.open("https://twitter.com/"+user)
+    page = browser.get_current_page()
+
+    result = {}
+    result["location"] = page.find(attrs={"class":"ProfileHeaderCard-locationText u-dir"}).contents[0].strip()
+
+    try:
+        result["birthday"] = page.find(attrs={"class":"ProfileHeaderCard-birthdateText u-dir"}).find().contents[0].strip().replace("Born ", "")
+    except:
+        result["birthday"] = None
+
+    result['profile-url'] = page.find(attrs={"class":"ProfileAvatar-image"}).attrs['src']
+
+    name_text = page.find("title").contents[0]
+    name_text = name_text[:name_text.find('(')].strip()
+    result['full_name'] = name_text
+
+    result['bio'] = page.find(attrs={"class":"ProfileHeaderCard-bio u-dir"}).contents[0]
+
+    q=page.find(attrs={"data-nav":"followers"})
+    result['num-followers'] = int(q.attrs["title"].replace(" Followers", '').replace(',',''))
+
+    q=page.find(attrs={"data-nav":"favorites"})
+    result['num-likes'] = int(q.attrs["title"].replace(" Likes", '').replace(',',''))
+
+    q=page.find(attrs={"data-nav":"following"})
+    result['num-following'] = int(q.attrs["title"].replace(" Following", '').replace(',',''))
+
+    q=page.find(attrs={"data-nav":"tweets"})
+    result['num-tweets'] = int(q.attrs["title"].replace(" Tweets", '').replace(',',''))
+    
+    return result
