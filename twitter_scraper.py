@@ -1,6 +1,7 @@
 import re
 from requests_html import HTMLSession, HTML
 from datetime import datetime
+from urllib.parse import quote
 from lxml.etree import ParserError
 import mechanicalsoup
 
@@ -9,13 +10,20 @@ session = HTMLSession()
 browser = mechanicalsoup.StatefulBrowser()
 browser.addheaders = [('User-agent', 'Firefox')]
 
-def get_tweets(user, pages=25):
+def get_tweets(query, pages=25):
     """Gets tweets for a given user, via the Twitter frontend API."""
 
-    url = f'https://twitter.com/i/profiles/show/{user}/timeline/tweets?include_available_features=1&include_entities=1&include_new_items_bar=true'
+    after_part = f'include_available_features=1&include_entities=1&include_new_items_bar=true'
+    if query.startswith('#'):
+        query = quote(query)
+        url = f'https://twitter.com/i/search/timeline?f=tweets&vertical=default&q={query}&src=tyah&reset_error_state=false&'
+    else:
+        url = f'https://twitter.com/i/profiles/show/{query}/timeline/tweets?'
+    url += after_part
+    
     headers = {
         'Accept': 'application/json, text/javascript, */*; q=0.01',
-        'Referer': f'https://twitter.com/{user}',
+        'Referer': f'https://twitter.com/{query}',
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/603.3.8 (KHTML, like Gecko) Version/10.1.2 Safari/603.3.8',
         'X-Twitter-Active-User': 'yes',
         'X-Requested-With': 'XMLHttpRequest',
@@ -31,7 +39,7 @@ def get_tweets(user, pages=25):
                             url='bunk', default_encoding='utf-8')
             except KeyError:
                 raise ValueError(
-                    f'Oops! Either "{user}" does not exist or is private.')
+                    f'Oops! Either "{query}" does not exist or is private.')
             except ParserError:
                 break
 
@@ -161,3 +169,9 @@ Returns a dictionary containing this information."""
     result['num-tweets'] = int(q.attrs["title"].replace(" Tweets", '').replace(',',''))
     
     return result
+
+
+# for searching:
+#
+# https://twitter.com/i/search/timeline?vertical=default&q=foof&src=typd&composed_count=0&include_available_features=1&include_entities=1&include_new_items_bar=true&interval=30000&latent_count=0
+# replace 'foof' with your query string.  Not sure how to decode yet but it seems to work.
