@@ -133,6 +133,24 @@ def get_tweets(query, pages=25):
 
     yield from gen_tweets(pages)
 
+def process_paragraph(contents):
+    output = ''
+    links = []
+    for i in contents:
+        try:
+            output+=i
+        except:
+            if i.name=="a":
+                tmp_txt, tmp_lnk = process_paragraph(i.contents)
+                links+=tmp_lnk
+                output+=tmp_txt#+'@['+i.attrs['href']+']'
+                links.append(i.attrs['href'])
+            elif i.name in ['s', 'b']:
+                tmp_txt, tmp_lnk = process_paragraph(i.contents)
+                links+=tmp_lnk
+                output+=tmp_txt
+    return output, links
+
 def read_profile(user):
     """Pulls information about a twitter user by scraping their profile page.
 Returns a dictionary containing this information."""
@@ -154,7 +172,7 @@ Returns a dictionary containing this information."""
     name_text = name_text[:name_text.find('(')].strip()
     result['full_name'] = name_text
 
-    result['bio'] = page.find(attrs={"class":"ProfileHeaderCard-bio u-dir"}).contents[0]
+    result['bio'] = process_paragraph(page.find(attrs={"class":"ProfileHeaderCard-bio u-dir"}).contents)
 
     q=page.find(attrs={"data-nav":"followers"})
     result['num-followers'] = int(q.attrs["title"].replace(" Followers", '').replace(',',''))
