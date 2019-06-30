@@ -174,17 +174,20 @@ Returns a dictionary containing this information."""
 
     result['bio'] = process_paragraph(page.find(attrs={"class":"ProfileHeaderCard-bio u-dir"}).contents)
 
-    q=page.find(attrs={"data-nav":"followers"})
-    result['num-followers'] = int(q.attrs["title"].replace(" Followers", '').replace(',',''))
+    try:
+        q=page.find(attrs={"data-nav":"followers"})
+        result['num-followers'] = int(q.attrs["title"].split(' ')[0].replace(',',''))
+    except:
+        result['num-followers'] = 0
 
     q=page.find(attrs={"data-nav":"favorites"})
-    result['num-likes'] = int(q.attrs["title"].replace(" Likes", '').replace(',',''))
+    result['num-likes'] = int(q.attrs["title"].split(' ')[0].replace(',',''))
 
     q=page.find(attrs={"data-nav":"following"})
-    result['num-following'] = int(q.attrs["title"].replace(" Following", '').replace(',',''))
+    result['num-following'] = int(q.attrs["title"].split(' ')[0].replace(',',''))
 
     q=page.find(attrs={"data-nav":"tweets"})
-    result['num-tweets'] = int(q.attrs["title"].replace(" Tweets", '').replace(',',''))
+    result['num-tweets'] = int(q.attrs["title"].split(' ')[0].replace(',',''))
     
     return result
 
