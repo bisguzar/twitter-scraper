@@ -63,22 +63,9 @@ def get_tweets(query, pages=25):
                     for x in tweet.find('.ProfileTweet-actionCount')
                 ]
 
-                replies = int(
-                    interactions[0].split(' ')[0].replace(comma, '').replace(dot, '')
-                    or interactions[3]
-                )
-
-                retweets = int(
-                    interactions[1].split(' ')[0].replace(comma, '').replace(dot, '')
-                    or interactions[4]
-                    or interactions[5]
-                )
-
-                likes = int(
-                    interactions[2].split(' ')[0].replace(comma, '').replace(dot, '')
-                    or interactions[6]
-                    or interactions[7]
-                )
+                replies = int(re.sub('\D', '', interactions[0].split(" ")[0]))
+                retweets = int(re.sub('\D', '', interactions[1].split(" ")[0]))
+                likes = int(re.sub('\D', '', interactions[2].split(" ")[0]))
 
                 hashtags = [
                     hashtag_node.full_text
