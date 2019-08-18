@@ -133,63 +133,101 @@ def get_tweets(query, pages=25):
 
     yield from gen_tweets(pages)
 
-def process_paragraph(contents):
-    output = ''
-    links = []
-    for i in contents:
+
+class Profile:
+    """
+        Parse twitter profile and split informations into class as attribute.
+        
+        Attributes:
+            - name
+            - username
+            - birthday
+            - biography
+            - profile_photo
+            - likes_count
+            - tweets_count
+            - followers_count
+            - following_count
+    """
+    def __init__(self, username):
+        browser.open("https://twitter.com/"+username)
+        page = browser.get_current_page()
+        self.username = username
+        self.__parse_profile(page)
+
+    def __parse_profile(self, page):
+        # parse location, also check is username valid 
         try:
-            output+=i
+            self.location = page.find(attrs={"class":"ProfileHeaderCard-locationText u-dir"}).contents[1].contents[0].strip()
+        except AttributeError:
+            raise ValueError(
+                    f'Oops! Either "@{self.username}" does not exist or is private.')
+
+        # parse birthday
+        try:
+            self.birthday = page.find(attrs={"class":"ProfileHeaderCard-birthdateText u-dir"}).find().contents[0].strip().replace("Born ", "")
         except:
-            if i.name=="a":
-                tmp_txt, tmp_lnk = process_paragraph(i.contents)
-                links+=tmp_lnk
-                output+=tmp_txt#+'@['+i.attrs['href']+']'
-                links.append(i.attrs['href'])
-            elif i.name in ['s', 'b']:
-                tmp_txt, tmp_lnk = process_paragraph(i.contents)
-                links+=tmp_lnk
-                output+=tmp_txt
-    return output, links
+            self.birthday = None
 
-def read_profile(user):
-    """Pulls information about a twitter user by scraping their profile page.
-Returns a dictionary containing this information."""
-    
-    browser.open("https://twitter.com/"+user)
-    page = browser.get_current_page()
+        # parse URL of profile photo
+        self.profile_photo = page.find(attrs={"class":"ProfileAvatar-image"}).attrs['src']
 
-    result = {}
-    result["location"] = page.find(attrs={"class":"ProfileHeaderCard-locationText u-dir"}).contents[0].strip()
+        # parse full name
+        name_text = page.find("title").contents[0]
+        self.name = name_text[:name_text.find('(')].strip()
 
-    try:
-        result["birthday"] = page.find(attrs={"class":"ProfileHeaderCard-birthdateText u-dir"}).find().contents[0].strip().replace("Born ", "")
-    except:
-        result["birthday"] = None
+        # parse biography
+        self.biography = self.__process_paragraph(page.find(attrs={"class":"ProfileHeaderCard-bio u-dir"}).contents)
+        
+        # parse count of followers
+        try:
+            q=page.find(attrs={"data-nav":"followers"})
+            self.followers_count = int(q.attrs["title"].split(' ')[0].replace(',',''))
+        except:
+            self.followers_count = 0
 
-    result['profile-url'] = page.find(attrs={"class":"ProfileAvatar-image"}).attrs['src']
+        # parse count of likes
+        q=page.find(attrs={"data-nav":"favorites"})
+        self.likes_count = int(q.attrs["title"].split(' ')[0].replace('.', ''))
 
-    name_text = page.find("title").contents[0]
-    name_text = name_text[:name_text.find('(')].strip()
-    result['full_name'] = name_text
+        # parse count of following
+        q=page.find(attrs={"data-nav":"following"})
+        self.following_count = int(q.attrs["title"].split(' ')[0].replace(',',''))
 
-    result['bio'] = process_paragraph(page.find(attrs={"class":"ProfileHeaderCard-bio u-dir"}).contents)
+        # parse count of tweets
+        q=page.find(attrs={"data-nav":"tweets"})
+        self.tweets_count = int(q.attrs["title"].split(' ')[0].replace(',',''))
 
-    try:
-        q=page.find(attrs={"data-nav":"followers"})
-        result['num-followers'] = int(q.attrs["title"].split(' ')[0].replace(',',''))
-    except:
-        result['num-followers'] = 0
+    def __process_paragraph(self, contents):
+        output = ''
+        links = []
+        for i in contents:
+            try:
+                output+=i
+            except:
+                if i.name=="a":
+                    tmp_txt, tmp_lnk = process_paragraph(i.contents)
+                    links+=tmp_lnk
+                    output+=tmp_txt#+'@['+i.attrs['href']+']'
+                    links.append(i.attrs['href'])
+                elif i.name in ['s', 'b']:
+                    tmp_txt, tmp_lnk = process_paragraph(i.contents)
+                    links+=tmp_lnk
+                    output+=tmp_txt
+        return output, links
 
-    q=page.find(attrs={"data-nav":"favorites"})
-    result['num-likes'] = int(q.attrs["title"].split(' ')[0].replace(',',''))
-
-    q=page.find(attrs={"data-nav":"following"})
-    result['num-following'] = int(q.attrs["title"].split(' ')[0].replace(',',''))
-
-    q=page.find(attrs={"data-nav":"tweets"})
-    result['num-tweets'] = int(q.attrs["title"].split(' ')[0].replace(',',''))
-    
-    return result
+    def __dir__(self):
+        return [
+            'name',
+            'username',
+            'birthday',
+            'biography',
+            'profile_photo',
+            'likes_count',
+            'tweets_count',
+            'followers_count',
+            'following_count'
+        ]
 
 
 # for searching:
