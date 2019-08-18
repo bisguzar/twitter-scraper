@@ -80,8 +80,7 @@ setup(
     author=AUTHOR,
     author_email=EMAIL,
     url=URL,
-    # If your package is a single module, use this instead of 'packages':
-    py_modules=['twitter_scraper'],
+    packages=find_packages(exclude=["tests", "*.tests", "*.tests.*", "tests.*", "dist", "*.egg-info"]),
 
     # entry_points={
     #     'console_scripts': ['mycli=mymodule:cli'],
