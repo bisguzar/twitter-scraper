@@ -132,3 +132,8 @@ def get_tweets(query, pages=25):
             pages += -1
 
     yield from gen_tweets(pages)
+
+# for searching:
+#
+# https://twitter.com/i/search/timeline?vertical=default&q=foof&src=typd&composed_count=0&include_available_features=1&include_entities=1&include_new_items_bar=true&interval=30000&latent_count=0
+# replace 'foof' with your query string.  Not sure how to decode yet but it seems to work.
