@@ -14,9 +14,9 @@ from setuptools import find_packages, setup, Command
 # Package meta-data.
 NAME = 'twitter-scraper'
 DESCRIPTION = 'Scrape the Twitter Frontend API without authentication.'
-URL = 'https://github.com/kennethreitz/twitter-scraper'
-EMAIL = 'me@kennethreitz.org'
-AUTHOR = 'Kenneth Reitz'
+URL = 'https://github.com/bisguzar/twitter-scraper'
+EMAIL = 'ben@bisguzar.com'
+AUTHOR = 'Bugra Isguzar' # Created by Kenneth Reitz
 VERSION = '0.2.1'
 
 # What packages are required for this module to be executed?
