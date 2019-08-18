@@ -16,6 +16,7 @@ class Profile:
             - username
             - birthday
             - biography
+            - website
             - profile_photo
             - likes_count
             - tweets_count
@@ -51,6 +52,12 @@ class Profile:
 
         # parse biography
         self.biography = self.__process_paragraph(page.find(attrs={"class":"ProfileHeaderCard-bio u-dir"}).contents)
+
+        # parse user's website adress
+        try:
+            self.website = page.find(attrs={'class': 'ProfileHeaderCard-urlText u-dir'}).find().contents[0].strip()
+        except:
+            self.website = None
         
         # parse count of followers
         try:
@@ -95,9 +102,13 @@ class Profile:
             'username',
             'birthday',
             'biography',
+            'website',
             'profile_photo',
             'likes_count',
             'tweets_count',
             'followers_count',
             'following_count'
         ]
+
+    def __repr__(self):
+        return f'<profile {self.username}@twitter>'
