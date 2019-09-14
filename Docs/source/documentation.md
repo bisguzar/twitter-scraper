@@ -91,6 +91,10 @@ Then run the file like above to get results.
 
 to tinker more with Markov models head over to [markovify's github page](https://github.com/jsvine/markovify).
 
+## License
+
+MIT
+
 
 
 
