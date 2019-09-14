@@ -5,12 +5,12 @@ Twitter's API is annoying to work with, and has lots of limitations — luckily 
 
  
   - [Why use it instead of the existing Twitter frontend api?](#1-why-use-it-instead-of-the-existing-twitter-frontend-api)
-  - [How to use?](#how-to-use)  
-  - [Installing](#installing)      
+  - [How to use?](#2how-to-use)  
+  - [Installating](#installating)      
   - [Important functions and their uses](#important-functions-and-their-uses)
   - [Woohoo now let's have some fun](#3woohoo-now-lets-have-some-fun)  
   - [quick Examples and Usage](#quick-examples-and-usage)
-  - [Using the scrapper with Markovify](#using-the-scrapper-with-markovify)
+  - [Using the scrapper with Markovify](#4-using-the-scrapper-with-markovify)
 
 
 ##  Why use it instead of the existing Twitter frontend api? 
@@ -26,7 +26,7 @@ You can use this library to get the text of any user's Tweets trivially. No exte
 
 **Note: You need python 3.6+ to use this scraper**
 
-### Installing 
+### Installating 
 1. check that you have python installed, go to your command prompt(if in Windows) or terminal (mac/Linux), then type ``python --version``. If you see something above 3.6 then you are good to go. 
 2. If step 1 failed head over to [python website](https://www.python.org/) then follow their steps to download and install python for your python.
 3. Next we need `pipenv`. I found [this article](https://medium.com/@mahmudahsan/how-to-use-python-pipenv-in-mac-and-windows-1c6dc87b403e) quite useful to get up and running with `pipenv`.

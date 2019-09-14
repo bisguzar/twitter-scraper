@@ -1,0 +1,295 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="y" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="y" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Twitter Scraper &mdash; twitter-scraper . documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to twitter-scraper&#39;s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> twitter-scraper
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Twitter Scraper</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#why-use-it-instead-of-the-existing-twitter-frontend-api">Why use it instead of the existing Twitter frontend api?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-use">How to use?</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#installating">Installating</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#important-functions-and-their-uses">Important functions and their uses</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#woohoo-now-let-s-have-some-fun">Woohoo now let's have some fun</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#quick-examples-and-usage">quick Examples and Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#using-the-scrapper-with-markovify">Using the scrapper with Markovify</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">twitter-scraper</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Twitter Scraper</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/documentation.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="twitter-scraper">
+<h1>Twitter Scraper<a class="headerlink" href="#twitter-scraper" title="Permalink to this headline">¶</a></h1>
+<p>Twitter's API is annoying to work with, and has lots of limitations — luckily their frontend (JavaScript) has it's own API, which I reverse–engineered.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="#1-why-use-it-instead-of-the-existing-twitter-frontend-api">Why use it instead of the existing Twitter frontend api?</a></p></li>
+<li><p><a class="reference external" href="#2how-to-use">How to use?</a></p></li>
+<li><p><a class="reference external" href="#installating">Installating</a></p></li>
+<li><p><a class="reference external" href="#important-functions-and-their-uses">Important functions and their uses</a></p></li>
+<li><p><a class="reference external" href="#3woohoo-now-lets-have-some-fun">Woohoo now let's have some fun</a></p></li>
+<li><p><a class="reference external" href="#quick-examples-and-usage">quick Examples and Usage</a></p></li>
+<li><p><a class="reference external" href="#4-using-the-scrapper-with-markovify">Using the scrapper with Markovify</a></p></li>
+</ul>
+<div class="section" id="why-use-it-instead-of-the-existing-twitter-frontend-api">
+<h2>Why use it instead of the existing Twitter frontend api?<a class="headerlink" href="#why-use-it-instead-of-the-existing-twitter-frontend-api" title="Permalink to this headline">¶</a></h2>
+<p>No API rate limits.</p>
+<p>No restrictions.</p>
+<p>Extremely fast.</p>
+<p>You can use this library to get the text of any user's Tweets trivially. No extensive knowledge of apis or other technical jargon required. For example: you can use it to generate <strong>Markov Chains</strong> really fast.</p>
+</div>
+<div class="section" id="how-to-use">
+<h2>How to use?<a class="headerlink" href="#how-to-use" title="Permalink to this headline">¶</a></h2>
+<p><strong>Note: You need python 3.6+ to use this scraper</strong></p>
+<div class="section" id="installating">
+<h3>Installating<a class="headerlink" href="#installating" title="Permalink to this headline">¶</a></h3>
+<ol class="simple">
+<li><p>check that you have python installed, go to your command prompt(if in Windows) or terminal (mac/Linux), then type <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">--version</span></code>. If you see something above 3.6 then you are good to go.</p></li>
+<li><p>If step 1 failed head over to <a class="reference external" href="https://www.python.org/">python website</a> then follow their steps to download and install python for your python.</p></li>
+<li><p>Next we need <code class="docutils literal notranslate"><span class="pre">pipenv</span></code>. I found <a class="reference external" href="https://medium.com/&#64;mahmudahsan/how-to-use-python-pipenv-in-mac-and-windows-1c6dc87b403e">this article</a> quite useful to get up and running with <code class="docutils literal notranslate"><span class="pre">pipenv</span></code>.</p></li>
+<li><p>Finally run <code class="docutils literal notranslate"><span class="pre">pipenv</span> <span class="pre">install</span> <span class="pre">twitter-scraper</span></code> in your terminal/ command prompt. That's it!</p></li>
+</ol>
+</div>
+<div class="section" id="important-functions-and-their-uses">
+<h3>Important functions and their uses<a class="headerlink" href="#important-functions-and-their-uses" title="Permalink to this headline">¶</a></h3>
+<p>You will mainly use the</p>
+<p><code class="docutils literal notranslate"><span class="pre">get_tweets(query,</span> <span class="pre">pages=25)</span></code></p>
+<p>function to parse and display the tweets. It takes two arguments:</p>
+<p>query- the twitter handle of the page you want tweets from
+pages-the max amount of pages data can be scraped from</p>
+<p>In simple terms the function returns a list called tweets[] and to print the contents in a tweet you would write something like</p>
+<p><code class="docutils literal notranslate"><span class="pre">print(tweets['text'])</span></code></p>
+</div>
+</div>
+<div class="section" id="woohoo-now-let-s-have-some-fun">
+<h2>Woohoo now let's have some fun<a class="headerlink" href="#woohoo-now-let-s-have-some-fun" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="quick-examples-and-usage">
+<h3>quick Examples and Usage<a class="headerlink" href="#quick-examples-and-usage" title="Permalink to this headline">¶</a></h3>
+<p>Let's scrape some tweets from the twitter page of <a class="reference external" href="https://www.freecodecamp.org/">freecodecamp</a>.</p>
+<ol class="simple">
+<li><p>Create a python file in your favourite editor, say</p></li>
+</ol>
+<p><code class="docutils literal notranslate"><span class="pre">twits.py</span></code></p>
+<ol class="simple">
+<li><p>Next we need to import the twiter scraper to start using the module and parse tweets. So in your twits.py write</p></li>
+</ol>
+<p><code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">twitter_scraper</span> <span class="pre">import</span> <span class="pre">get_tweets</span></code></p>
+<ol>
+<li><p>Next we want to iterate over the tweets using a for loop instead for manually getting one tweet, so</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">get_tweet</span><span class="p">(</span><span class="s1">&#39;freeCodeCamp&#39;</span><span class="p">,</span> <span class="n">pages</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+
+  <span class="nb">print</span><span class="p">(</span><span class="n">tweet</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</li>
+<li><p>Run the file from terminal using</p></li>
+</ol>
+<p><code class="docutils literal notranslate"><span class="pre">pipenv</span> <span class="pre">run</span> <span class="pre">twits.py</span></code></p>
+<p>you will see a number of tweets from the twitter homepage of freecodecamp.</p>
+</div>
+</div>
+<div class="section" id="using-the-scrapper-with-markovify">
+<h2>Using the scrapper with Markovify<a class="headerlink" href="#using-the-scrapper-with-markovify" title="Permalink to this headline">¶</a></h2>
+<p>You can also use this to generate Markov chains. first install markovify</p>
+<p><code class="docutils literal notranslate"><span class="pre">pipenv</span> <span class="pre">install</span> <span class="pre">markovify</span></code></p>
+<p>then like above example create a python file like this</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">markovify</span>
+<span class="kn">from</span> <span class="nn">twitter_scraper</span> <span class="k">import</span> <span class="n">get_tweets</span>
+<span class="n">tweets</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">t</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">get_tweets</span><span class="p">(</span><span class="s1">&#39;freeCodeCamp&#39;</span><span class="p">,</span> <span class="n">pages</span><span class="o">=</span><span class="mi">25</span><span class="p">)])</span>
+<span class="n">text_model</span> <span class="o">=</span> <span class="n">markovify</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="n">tweets</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">text_model</span><span class="o">.</span><span class="n">make_short_sentence</span><span class="p">(</span><span class="mi">140</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Then run the file like above to get results.</p>
+<p>to tinker more with Markov models head over to <a class="reference external" href="https://github.com/jsvine/markovify">markovify's github page</a>.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to twitter-scraper&#39;s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, bisguzar
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
