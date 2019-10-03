@@ -40,4 +40,6 @@ class TestPages(unittest.TestCase):
 
 
 if __name__ == '__main__':
+    print('start')
     unittest.main()
+    print('done')
