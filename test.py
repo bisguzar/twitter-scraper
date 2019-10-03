@@ -1,5 +1,6 @@
 import unittest
 from twitter_scraper import get_tweets
+from datetime import datetime
 
 
 class TestFamilyUnderscore(unittest.TestCase):
@@ -40,6 +41,6 @@ class TestPages(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    print('start')
+    print('start', str(datetime.now()))
     unittest.main()
-    print('done')
+    print('done', str(datetime.now()))
