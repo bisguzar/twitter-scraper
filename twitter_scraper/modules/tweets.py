@@ -32,10 +32,12 @@ def get_tweets(query, pages=25):
 
     def gen_tweets(pages):
         r = session.get(url, headers=headers)
+        r_json = {}
 
         while pages > 0:
             try:
-                html = HTML(html=r.json()['items_html'],
+                r_json = r.json()
+                html = HTML(html=r_json['items_html'],
                             url='bunk', default_encoding='utf-8')
             except KeyError:
                 raise ValueError(
@@ -128,8 +130,11 @@ def get_tweets(query, pages=25):
                     tweet['text'] = re.sub(r'\Spic\.twitter', ' pic.twitter', tweet['text'], 1)
                     yield tweet
 
-            r = session.get(url, params={'max_position': last_tweet}, headers=headers)
-            pages += -1
+            if r_json['has_more_items']:
+                r = session.get(url, params={'max_position': last_tweet}, headers=headers)
+                pages += -1
+            else:
+                break
 
     yield from gen_tweets(pages)
 
