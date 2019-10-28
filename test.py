@@ -20,7 +20,7 @@ class TestFamilyUnderscore(unittest.TestCase):
         user = '___'
         tweets = list(get_tweets(query=user, pages=1))
 
-        self.assertEqual(tweets[1]['text'], 'If I could, I would, but if I can’t, I wan’t.')
+        self.assertEqual(tweets[1]['text'], '“Review mirror”')
 
 
 class TestPages(unittest.TestCase):
