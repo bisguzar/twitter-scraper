@@ -4,8 +4,9 @@ __pycache__/
 .vscode
 /build/
 ./idea
+.idea
 /dist/
-
+twitter-scraper.iml
 /t.py
 
 /twitter_scraper.egg-info/
