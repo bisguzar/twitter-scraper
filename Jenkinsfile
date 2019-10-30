@@ -4,7 +4,7 @@ pipeline {
     stage('Setup workspace'){
       steps{
         sh 'pip install -r requirements.txt'
-        sh 'pip install flake8 pytest bandit'
+        sh 'pip install flake8 pytest bandit coverage'
         sh 'mkdir -p reports/'
       }
     }
@@ -16,6 +16,7 @@ pipeline {
     stage('Test') {
       steps {
         sh 'pytest -rA test.py > reports/tests.txt'
+        sh 'coverage report test.py > reports/coverage.txt'
       }
     }
     stage('Package') {
