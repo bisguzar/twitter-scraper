@@ -16,7 +16,7 @@ NAME = 'twitter-scraper'
 DESCRIPTION = 'Scrape the Twitter Frontend API without authentication.'
 URL = 'https://github.com/bisguzar/twitter-scraper'
 EMAIL = 'ben@bisguzar.com'
-AUTHOR = 'Bugra Isguzar' # Created by Kenneth Reitz
+AUTHOR = 'Bugra Isguzar'  # Created by Kenneth Reitz
 VERSION = '0.2.1'
 
 # What packages are required for this module to be executed?
@@ -28,12 +28,14 @@ REQUIRED = [
 # The rest you shouldn't have to touch too much :)
 # ------------------------------------------------
 # Except, perhaps the License and Trove Classifiers!
-# If you do change the License, remember to change the Trove Classifier for that!
+# If you do change the License,
+# remember to change the Trove Classifier for that!
 
 here = os.path.abspath(os.path.dirname(__file__))
 
 # Import the README and use it as the long-description.
-# Note: this will only work if 'README.rst' is present in your MANIFEST.in file!
+# Note: this will only work if 'README.rst'
+# is present in your MANIFEST.in file!
 with io.open(os.path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = '\n' + f.read()
 
@@ -63,7 +65,8 @@ class UploadCommand(Command):
             pass
 
         self.status('Building Source and Wheel (universal) distribution…')
-        os.system('{0} setup.py sdist bdist_wheel --universal'.format(sys.executable))
+        os.system('{0} setup.py sdist bdist_wheel --universal'.
+                  format(sys.executable))
 
         self.status('Uploading the package to PyPi via Twine…')
         os.system('twine upload dist/*')
@@ -80,7 +83,12 @@ setup(
     author=AUTHOR,
     author_email=EMAIL,
     url=URL,
-    packages=find_packages(exclude=["tests", "*.tests", "*.tests.*", "tests.*", "dist", "*.egg-info"]),
+    packages=find_packages(exclude=["tests",
+                                    "*.tests",
+                                    "*.tests.*",
+                                    "tests.*",
+                                    "dist",
+                                    "*.egg-info"]),
 
     # entry_points={
     #     'console_scripts': ['mycli=mymodule:cli'],

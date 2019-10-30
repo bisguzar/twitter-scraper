@@ -13,8 +13,9 @@ class TestFamilyUnderscore(unittest.TestCase):
     def test_mother(self):
         user = '__'
         tweets = list(get_tweets(query=user, pages=1))
+        text = 'It is a gift to be alive in the time of Beyoncé'
 
-        self.assertTrue(tweets[0]['text'].__contains__('It is a gift to be alive in the time of Beyoncé'))
+        self.assertTrue(tweets[0]['text'].__contains__(text))
 
     def test_child(self):
         user = '___'

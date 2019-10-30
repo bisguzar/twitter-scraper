@@ -10,21 +10,26 @@ session = HTMLSession()
 browser = mechanicalsoup.StatefulBrowser()
 browser.addheaders = [('User-agent', 'Firefox')]
 
+
 def get_tweets(query, pages=25):
     """Gets tweets for a given user, via the Twitter frontend API."""
 
-    after_part = f'include_available_features=1&include_entities=1&include_new_items_bar=true'
+    after_part = f'include_available_features=1&\
+                   include_entities=1&include_new_items_bar=true'
     if query.startswith('#'):
         query = quote(query)
-        url = f'https://twitter.com/i/search/timeline?f=tweets&vertical=default&q={query}&src=tyah&reset_error_state=false&'
+        url = f'https://twitter.com/i/search/timeline?f=tweets\
+                &vertical=default&q={query}&src=tyah&reset_error_state=false&'
     else:
         url = f'https://twitter.com/i/profiles/show/{query}/timeline/tweets?'
     url += after_part
-    
+
     headers = {
         'Accept': 'application/json, text/javascript, */*; q=0.01',
         'Referer': f'https://twitter.com/{query}',
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/603.3.8 (KHTML, like Gecko) Version/10.1.2 Safari/603.3.8',
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) \
+         AppleWebKit/603.3.8 (KHTML, like Gecko) \
+         Version/10.1.2 Safari/603.3.8',
         'X-Twitter-Active-User': 'yes',
         'X-Requested-With': 'XMLHttpRequest',
         'Accept-Language': 'en-US'
@@ -47,7 +52,8 @@ def get_tweets(query, pages=25):
             dot = "."
             tweets = []
             for tweet in html.find('.stream-item'):
-                # 10~11 html elements have `.stream-item` class and also their `data-item-type` is `tweet`
+                # 10~11 html elements have `.stream-item`
+                # class and also their `data-item-type` is `tweet`
                 # but their content doesn't look like a tweet's content
                 try:
                     text = tweet.find('.tweet-text')[0].full_text
@@ -56,7 +62,9 @@ def get_tweets(query, pages=25):
 
                 tweet_id = tweet.attrs['data-item-id']
 
-                time = datetime.fromtimestamp(int(tweet.find('._timestamp')[0].attrs['data-time-ms']) / 1000.0)
+                time = datetime.fromtimestamp(int(tweet.
+                                              find('._timestamp')[0].
+                                              attrs['data-time-ms']) / 1000.0)
 
                 interactions = [
                     x.text
@@ -64,18 +72,21 @@ def get_tweets(query, pages=25):
                 ]
 
                 replies = int(
-                    interactions[0].split(' ')[0].replace(comma, '').replace(dot, '')
+                    interactions[0].split(' ')[0].
+                    replace(comma, '').replace(dot, '')
                     or interactions[3]
                 )
 
                 retweets = int(
-                    interactions[1].split(' ')[0].replace(comma, '').replace(dot, '')
+                    interactions[1].split(' ')[0].
+                    replace(comma, '').replace(dot, '')
                     or interactions[4]
                     or interactions[5]
                 )
 
                 likes = int(
-                    interactions[2].split(' ')[0].replace(comma, '').replace(dot, '')
+                    interactions[2].split(' ')[0].
+                    replace(comma, '').replace(dot, '')
                     or interactions[6]
                     or interactions[7]
                 )
@@ -86,14 +97,17 @@ def get_tweets(query, pages=25):
                 ]
                 urls = [
                     url_node.attrs['data-expanded-url']
-                    for url_node in tweet.find('a.twitter-timeline-link:not(.u-hidden)')
+                    for url_node in tweet.find('a.twitter-timeline\
+                                                -link:not(.u-hidden)')
                 ]
                 photos = [
                     photo_node.attrs['data-image-url']
-                    for photo_node in tweet.find('.AdaptiveMedia-photoContainer')
+                    for photo_node in tweet.find('.AdaptiveMedia\
+                                                  -photoContainer')
                 ]
 
-                is_retweet = True if tweet.find('.js-stream-tweet')[0].attrs.get('data-retweet-id', None) \
+                is_retweet = True if tweet.find('.js-stream-tweet')[0].attrs.\
+                    get('data-retweet-id', None) \
                     else False
 
                 videos = []
@@ -124,16 +138,22 @@ def get_tweets(query, pages=25):
 
             for tweet in tweets:
                 if tweet:
-                    tweet['text'] = re.sub(r'\Shttp', ' http', tweet['text'], 1)
-                    tweet['text'] = re.sub(r'\Spic\.twitter', ' pic.twitter', tweet['text'], 1)
+                    tweet['text'] = re.sub(r'\Shttp',
+                                           ' http', tweet['text'], 1)
+                    tweet['text'] = re.sub(r'\Spic\.twitter',
+                                           ' pic.twitter', tweet['text'], 1)
                     yield tweet
 
-            r = session.get(url, params={'max_position': last_tweet}, headers=headers)
+            r = session.get(url, params={'max_position': last_tweet},
+                            headers=headers)
             pages += -1
 
     yield from gen_tweets(pages)
 
 # for searching:
 #
-# https://twitter.com/i/search/timeline?vertical=default&q=foof&src=typd&composed_count=0&include_available_features=1&include_entities=1&include_new_items_bar=true&interval=30000&latent_count=0
-# replace 'foof' with your query string.  Not sure how to decode yet but it seems to work.
+# https://twitter.com/i/search/timeline?vertical=default&q=foof&
+# src=typd&composed_count=0&include_available_features=1&include_entities=1&
+# include_new_items_bar=true&interval=30000&latent_count=0
+# replace 'foof' with your query string.
+# Not sure how to decode yet but it seems to work.
