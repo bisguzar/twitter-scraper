@@ -30,7 +30,7 @@ class TestPages(unittest.TestCase):
         """I don't know why but in some cases it only crawls 2~5 pages"""
         user = 'kennethreitz'
         tweets = list(get_tweets(query=user, pages=25))
-        self.assertGreater(len(tweets), 486)
+        self.assertGreater(len(tweets), 300)
 
     def test_languages(self):
         user = 'fcbarcelona_jp'

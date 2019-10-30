@@ -8,5 +8,6 @@ __pycache__/
 /dist/
 twitter-scraper.iml
 /t.py
+.coverage
 
 /twitter_scraper.egg-info/
