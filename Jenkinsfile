@@ -32,12 +32,17 @@ pipeline {
     stage('Deploy') {
       steps {
         sh 'tar -cvzf build.tar.gz build/'
-        sh 'tar -cvzf reports.tar.gz reports/'
+      }
+    }
+    stage('Benchmarking'){
+      steps {
+        sh 'python3 -m cProfile -s \'ncalls\' test.py > temp_file && head -n 30 temp_file > reports/benchmarks.txt'
       }
     }
   }
   post {
     always {
+      sh 'tar -cvzf reports.tar.gz reports/'
       archiveArtifacts 'reports.tar.gz'
       archiveArtifacts artifacts: 'build.tar.gz', onlyIfSuccessful: true
     }
