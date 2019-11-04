@@ -36,7 +36,7 @@ pipeline {
     }
     stage('Benchmarking'){
       steps {
-        sh 'python3 -m cProfile -s \'ncalls\' test.py > temp_file && head -n 30 temp_file > reports/benchmarks.txt'
+        sh 'bash benchmarks/benchmark.sh'
       }
     }
   }
