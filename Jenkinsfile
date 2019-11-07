@@ -41,10 +41,19 @@ pipeline {
     }
   }
   post {
-    always {
+    always{
       sh 'tar -cvzf reports.tar.gz reports/'
+      emailext (attachmentsPattern: 'reports.tar.gz',
+        body: 'Workflow result on ${currentBuild.currentResult}, check attached artifacts for further information',
+        subject: "Jenkins Build ${currentBuild.currentResult} on Job ${env.JOB_NAME}",
+        from: 'notificaciones.torusnewies@gmail.com',
+        replyTo: '',
+        to: 'losetazo@gmail.com'
+      )
+    }
+    success {
       archiveArtifacts 'reports.tar.gz'
-      archiveArtifacts artifacts: 'build.tar.gz', onlyIfSuccessful: true
+      archiveArtifacts artifacts: 'build.tar.gz'
     }
   }
 }
