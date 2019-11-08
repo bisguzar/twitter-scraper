@@ -9,5 +9,6 @@ __pycache__/
 twitter-scraper.iml
 /t.py
 .coverage
+benchmarks/
 
 /twitter_scraper.egg-info/
