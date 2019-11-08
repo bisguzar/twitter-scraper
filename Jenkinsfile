@@ -54,6 +54,22 @@ pipeline {
     success {
       archiveArtifacts 'reports.tar.gz'
       archiveArtifacts artifacts: 'build.tar.gz'
+      script{
+        if (env.BRANCH_NAME.startsWith('PR')){
+          withCredentials([usernamePassword(credentialsId: 'CarlosCredGH', passwordVariable: 'pass', usernameVariable: 'user')]) {
+            sh "git remote update"
+            sh "git fetch --all"
+            sh "git pull --all"
+            sh "git checkout dev"
+            sh "git merge origin/master"
+            sh "git merge ${BRANCH_NAME}"
+            sh "git push https://$user:$pass@github.com/losete/twitter-scraper/"
+          }
+        }
+      }
+    }
+    cleanup{
+      cleanWs()
     }
   }
 }
