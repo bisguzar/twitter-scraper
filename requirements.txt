@@ -1,2 +1,6 @@
 requests_html
 mechanicalsoup
+flake8
+pytest
+bandit
+coverage

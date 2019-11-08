@@ -4,7 +4,6 @@ pipeline {
     stage('Setup workspace'){
       steps{
         sh 'pip install -r requirements.txt'
-        sh 'pip install flake8 pytest bandit coverage'
         sh 'mkdir -p reports/'
       }
     }
@@ -67,6 +66,9 @@ pipeline {
           }
         }
       }
+    }
+    cleanup{
+      cleanWs()
     }
     cleanup{
       cleanWs()
