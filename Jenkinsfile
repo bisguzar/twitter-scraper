@@ -71,8 +71,5 @@ pipeline {
     cleanup{
       cleanWs()
     }
-    cleanup{
-      cleanWs()
-    }
   }
 }
