@@ -34,7 +34,7 @@ pip3 install twitter_scraper
 
 Just import **twitter-scraper** and call functions!
 
-### **get_tweets()**
+### function **get_tweets(query: str [, pages: int])** -> dictionary
 You can get tweets of profile or parse tweets from hashtag, **get_tweets** takes username or hashtag on first parameter as string and how much pages you want to scan on second parameter as integer. 
 
 #### Keep in mind:
@@ -66,6 +66,28 @@ It returns a dictionary for each tweet. Keys of the dictionary;
 | retweets  | integer    | Retweet count of tweet                                           |
 | likes     | integer    | Like count of tweet                                              |
 | entries   | dictionary | Has hashtags, videos, photos, urls keys. Each one's value is list|
+
+### class **Profile(username: str)** -> class instance
+You can get personal information of a profile, like birthday and biography if exists and public. This class takes username parameter. And returns itself. Access informations with class variables.
+
+
+```python
+Python 3.7.3 (default, Mar 26 2019, 21:43:19) 
+[GCC 8.2.1 20181127] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> from twitter_scraper import Profile
+>>> profile = Profile('bugraisguzar')
+>>> 
+>>> vars(profile)
+{'username': 'bugraisguzar', 'location': 'Kocaeli, Türkiye', 'birthday': None, 'profile_photo': 'https://pbs.twimg.com/profile_images/1116760468633288715/9prl254I_400x400.png', 'name': 'Buğra İşgüzar', 'biography': ('geliştirici', []), 'website': 'bisguzar.com', 'followers_count': 432, 'likes_count': 2468, 'following_count': 240, 'tweets_count': 749}
+>>> 
+>>> profile.location
+'Kocaeli, Türkiye'
+>>> profile.name
+'Buğra İşgüzar'
+>>> profile.username
+'bugraisguzar'
+```
 
 ## Contributing to twitter-scraper
 To contribute to twitter-scraper, follow these steps:
