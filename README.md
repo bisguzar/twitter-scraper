@@ -34,8 +34,6 @@ pip3 install twitter_scraper
 
 Just import **twitter-scraper** and call functions!
 
-<br />
-<br />
 
 ### → function **get_tweets(query: str [, pages: int])** -> dictionary
 You can get tweets of profile or parse tweets from hashtag, **get_tweets** takes username or hashtag on first parameter as string and how much pages you want to scan on second parameter as integer. 
@@ -70,8 +68,6 @@ It returns a dictionary for each tweet. Keys of the dictionary;
 | likes     | integer    | Like count of tweet                                              |
 | entries   | dictionary | Has hashtags, videos, photos, urls keys. Each one's value is list|
 
-<br />
-<br />
 
 ### → class **Profile(username: str)** -> class instance
 You can get personal information of a profile, like birthday and biography if exists and public. This class takes username parameter. And returns itself. Access informations with class variables.
@@ -95,8 +91,6 @@ Type "help", "copyright", "credits" or "license" for more information.
 'bugraisguzar'
 ```
 
-<br />
-<br />
 
 ## Contributing to twitter-scraper
 To contribute to twitter-scraper, follow these steps:
