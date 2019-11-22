@@ -70,6 +70,8 @@ It returns a dictionary for each tweet. Keys of the dictionary;
 | likes     | integer    | Like count of tweet                                              |
 | entries   | dictionary | Has hashtags, videos, photos, urls keys. Each one's value is list|
 
+### → function **get_trends()** -> list
+You can get the Trends of your area simply by calling `get_trends`. It will return a list of strings.
 
 ### → class **Profile(username: str)** -> class instance
 You can get personal information of a profile, like birthday and biography if exists and public. This class takes username parameter. And returns itself. Access informations with class variables.
