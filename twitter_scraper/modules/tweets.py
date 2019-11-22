@@ -2,8 +2,11 @@ import re
 from requests_html import HTMLSession, HTML
 from datetime import datetime
 from urllib.parse import quote
+import urllib.request
 from lxml.etree import ParserError
 import mechanicalsoup
+import urllib.request
+from bs4 import BeautifulSoup
 
 session = HTMLSession()
 
@@ -133,7 +136,18 @@ def get_tweets(query, pages=25):
 
     yield from gen_tweets(pages)
 
-# for searching:
-#
-# https://twitter.com/i/search/timeline?vertical=default&q=foof&src=typd&composed_count=0&include_available_features=1&include_entities=1&include_new_items_bar=true&interval=30000&latent_count=0
-# replace 'foof' with your query string.  Not sure how to decode yet but it seems to work.
+
+
+def get_trends():
+
+    trends = []
+
+    with urllib.request.urlopen("https://twitter.com/i/trends") as url:
+        data = json.loads(url.read().decode())
+        soup = BeautifulSoup(data["module_html"], 'html.parser')
+
+        for trend in soup.find_all('li'):
+            print(trend.get('data-trend-name'))
+            trends.append(trend.get('data-trend-name'))
+    
+    return trends
