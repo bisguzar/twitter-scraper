@@ -1,6 +1,0 @@
-def get_trends():
-    browser.open("https://twitter.com/search-home")
-    page = browser.get_current_page()
-    # parse trends
-    trends = page.find(attrs={"class":"trend-items js-trends"}).contents[0].strip()
-    return trends
