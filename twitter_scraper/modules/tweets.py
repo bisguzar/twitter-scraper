@@ -7,6 +7,7 @@ from lxml.etree import ParserError
 import mechanicalsoup
 import urllib.request
 from bs4 import BeautifulSoup
+import json
 
 session = HTMLSession()
 
