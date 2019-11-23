@@ -1,5 +1,5 @@
 import unittest
-from twitter_scraper import get_tweets
+from twitter_scraper import get_tweets, get_trends
 
 
 class TestFamilyUnderscore(unittest.TestCase):
@@ -20,7 +20,7 @@ class TestFamilyUnderscore(unittest.TestCase):
         user = '___'
         tweets = list(get_tweets(query=user, pages=1))
 
-        self.assertEqual(tweets[1]['text'], 'If I could, I would, but if I can’t, I wan’t.')
+        self.assertEqual(tweets[1]['text'], '“Review mirror”')
 
 
 class TestPages(unittest.TestCase):
@@ -37,6 +37,21 @@ class TestPages(unittest.TestCase):
         self.assertIn('likes', tweets[0])
         self.assertIsInstance(tweets[0]['replies'], int)
         self.assertGreaterEqual(tweets[1]['retweets'], 0)
+
+
+class TestTrends(unittest.TestCase):
+    def test_returned(self):
+        self.assertIsInstance(
+            get_trends(),
+            list
+        )
+
+    def test_returned_string(self):
+        for trend in get_trends():
+            self.assertIsInstance(
+                trend,
+                str
+            )
 
 
 if __name__ == '__main__':
