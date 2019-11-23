@@ -146,7 +146,6 @@ def get_trends():
         soup = BeautifulSoup(data["module_html"], 'html.parser')
 
         for trend in soup.find_all('li'):
-            print(trend.get('data-trend-name'))
             trends.append(trend.get('data-trend-name'))
     
     return trends
