@@ -2,12 +2,8 @@ import re
 from requests_html import HTMLSession, HTML
 from datetime import datetime
 from urllib.parse import quote
-import urllib.request
 from lxml.etree import ParserError
 import mechanicalsoup
-import urllib.request
-from bs4 import BeautifulSoup
-import json
 
 session = HTMLSession()
 
@@ -136,19 +132,6 @@ def get_tweets(query, pages=25):
             pages += -1
 
     yield from gen_tweets(pages)
-
-def get_trends():
-
-    trends = []
-
-    with urllib.request.urlopen("https://twitter.com/i/trends") as url:
-        data = json.loads(url.read().decode())
-        soup = BeautifulSoup(data["module_html"], 'html.parser')
-
-        for trend in soup.find_all('li'):
-            trends.append(trend.get('data-trend-name'))
-    
-    return trends
 
 # for searching:
 #
