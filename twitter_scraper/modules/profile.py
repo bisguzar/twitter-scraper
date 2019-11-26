@@ -6,6 +6,8 @@ session = HTMLSession()
 
 browser = mechanicalsoup.StatefulBrowser()
 browser.addheaders = [('User-agent', 'Firefox')]
+browser.session.headers.update({'Accept-Language': 'en-US'})
+
 
 class Profile:
     """

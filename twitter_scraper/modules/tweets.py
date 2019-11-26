@@ -9,7 +9,7 @@ session = HTMLSession()
 
 browser = mechanicalsoup.StatefulBrowser()
 browser.addheaders = [('User-agent', 'Firefox')]
-
+browser.session.headers.update({'Accept-Language':'en-US'})
 def get_tweets(query, pages=25):
     """Gets tweets for a given user, via the Twitter frontend API."""
 
