@@ -36,6 +36,9 @@ class Profile:
         except AttributeError:
             raise ValueError(
                     f'Oops! Either "@{self.username}" does not exist or is private.')
+        except IndexError:
+            pass
+
 
         # parse birthday
         try:
