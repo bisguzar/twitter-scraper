@@ -32,7 +32,7 @@ class Profile:
     def __parse_profile(self, page):
         # parse location, also check is username valid
         try:
-            self.location = page.find(attrs={"class":"ProfileHeaderCard-locationText u-dir"}).contents[1].contents[0].strip()
+            self.location = (page.find(attrs={"class":"ProfileHeaderCard-locationText u-dir"}).text).strip()
         except AttributeError:
             raise ValueError(
                     f'Oops! Either "@{self.username}" does not exist or is private.')
