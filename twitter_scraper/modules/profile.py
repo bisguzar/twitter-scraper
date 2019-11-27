@@ -10,7 +10,7 @@ browser.addheaders = [('User-agent', 'Firefox')]
 class Profile:
     """
         Parse twitter profile and split informations into class as attribute.
-        
+
         Attributes:
             - name
             - username
@@ -30,7 +30,7 @@ class Profile:
         self.__parse_profile(page)
 
     def __parse_profile(self, page):
-        # parse location, also check is username valid 
+        # parse location, also check is username valid
         try:
             self.location = page.find(attrs={"class":"ProfileHeaderCard-locationText u-dir"}).contents[1].contents[0].strip()
         except AttributeError:
@@ -58,7 +58,7 @@ class Profile:
             self.website = page.find(attrs={'class': 'ProfileHeaderCard-urlText u-dir'}).find().contents[0].strip()
         except:
             self.website = None
-        
+
         # parse count of followers
         try:
             q=page.find(attrs={"data-nav":"followers"})
@@ -83,7 +83,7 @@ class Profile:
         links = []
         for i in contents:
             try:
-                output+=i
+                output+=str(i)
             except:
                 if i.name=="a":
                     tmp_txt, tmp_lnk = process_paragraph(i.contents)
