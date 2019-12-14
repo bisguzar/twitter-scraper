@@ -6,7 +6,7 @@ session = HTMLSession()
 class Profile:
     """
         Parse twitter profile and split informations into class as attribute.
-        
+
         Attributes:
             - name
             - username
