@@ -94,6 +94,20 @@ class Profile:
         except:
             self.likes_count = None
 
+    def to_dict(self):
+        return dict(
+            name = self.name,
+            username = self.username,
+            birthday = self.birthday,
+            biography = self.biography,
+            website = self.website,
+            profile_photo = self.profile_photo,
+            likes_count = self.likes_count,
+            tweets_count = self.tweets_count,
+            followers_count = self.followers_count,
+            following_count = self.following_count
+        )
+
     def __dir__(self):
         return [
             'name',
@@ -108,16 +122,5 @@ class Profile:
             'following_count'
         ]
 
-    def to_dict(self):
-        return dict(
-            name = self.name,
-            username = self.username,
-            birthday = self.birthday,
-            biography = self.biography,
-            website = self.website,
-            profile_photo = self.profile_photo,
-            likes_count = self.likes_count,
-            tweets_count = self.tweets_count,
-            followers_count = self.followers_count,
-            following_count = self.following_count
-        )
+    def __repr__(self):
+        return f'<profile {self.username}@twitter>'
