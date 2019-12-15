@@ -1,12 +1,7 @@
 from requests_html import HTMLSession, HTML
 from lxml.etree import ParserError
-import mechanicalsoup
 
 session = HTMLSession()
-
-browser = mechanicalsoup.StatefulBrowser()
-browser.addheaders = [('User-agent', 'Firefox')]
-
 
 class Profile:
     """
@@ -44,7 +39,7 @@ class Profile:
                         url='bunk', default_encoding='utf-8')
         except KeyError:
             raise ValueError(
-                f'Oops! Either "{query}" does not exist or is private.')
+                f'Oops! Either "{self.username}" does not exist or is private.')
         except ParserError:
             pass
 
