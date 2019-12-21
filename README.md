@@ -92,17 +92,28 @@ Python 3.7.3 (default, Mar 26 2019, 21:43:19)
 Type "help", "copyright", "credits" or "license" for more information.
 >>> from twitter_scraper import Profile
 >>> profile = Profile('bugraisguzar')
->>> 
->>> vars(profile)
-{'username': 'bugraisguzar', 'location': 'Kocaeli, Türkiye', 'birthday': None, 'profile_photo': 'https://pbs.twimg.com/profile_images/1116760468633288715/9prl254I_400x400.png', 'name': 'Buğra İşgüzar', 'biography': ('geliştirici', []), 'website': 'bisguzar.com', 'followers_count': 432, 'likes_count': 2468, 'following_count': 240, 'tweets_count': 749}
->>> 
 >>> profile.location
-'Kocaeli, Türkiye'
+'Istanbul'
 >>> profile.name
 'Buğra İşgüzar'
 >>> profile.username
 'bugraisguzar'
 ```
+
+#### → **.to_dict()** -> dict
+
+**to_dict** is a method of *Profile* class. Returns profile datas as Python dictionary.
+
+```python
+Python 3.7.3 (default, Mar 26 2019, 21:43:19) 
+[GCC 8.2.1 20181127] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> from twitter_scraper import Profile
+>>> profile = Profile("bugraisguzar")
+>>> profile.to_dict()
+{'name': 'Buğra İşgüzar', 'username': 'bugraisguzar', 'birthday': None, 'biography': 'geliştirici@peptr', 'website': 'bisguzar.com', 'profile_photo': 'https://pbs.twimg.com/profile_images/1199305322474745861/nByxOcDZ_400x400.jpg', 'likes_count': 2512, 'tweets_count': 756, 'followers_count': 483, 'following_count': 255}
+```
+
 
 
 ## Contributing to twitter-scraper
