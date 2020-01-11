@@ -7,7 +7,7 @@ def get_trends():
     trends = []
 
     html = session.get("https://twitter.com/i/trends").json()["module_html"]
-    html = html = HTML(
+    html = HTML(
         html=html, url="bunk", default_encoding="utf-8"
     )
 
