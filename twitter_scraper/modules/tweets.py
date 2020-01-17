@@ -124,9 +124,8 @@ def get_tweets(query, pages=25):
             last_tweet = html.find('.stream-item')[-1].attrs['data-item-id']
 
             for tweet in tweets:
-                if tweet:
-                    tweet['text'] = re.sub(r'\Shttp', ' http', tweet['text'], 1)
-                    tweet['text'] = re.sub(r'\Spic\.twitter', ' pic.twitter', tweet['text'], 1)
+                    tweet['text'] = re.sub(r'(\S)http', '\g<1> http', tweet['text'], 1)
+                    tweet['text'] = re.sub(r'(\S)pic\.twitter', '\g<1> pic.twitter', tweet['text'], 1)
                     yield tweet
 
             r = session.get(url, params={'max_position': last_tweet}, headers=headers)
