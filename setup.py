@@ -77,6 +77,7 @@ setup(
     version=VERSION,
     description=DESCRIPTION,
     long_description=long_description,
+    long_description_content_type="text/markdown",
     author=AUTHOR,
     author_email=EMAIL,
     url=URL,
