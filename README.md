@@ -34,7 +34,7 @@ pip3 install twitter_scraper
 
 ## Using twitter_scraper
 
-Just import **twitter-scraper** and call functions!
+Just import **twitter_scraper** and call functions!
 
 
 ### → function **get_tweets(query: str [, pages: int])** -> dictionary
