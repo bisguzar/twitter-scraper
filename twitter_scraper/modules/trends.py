@@ -22,6 +22,6 @@ def get_trends():
     for trend_item in html.find("li"):
         trend_text = trend_item.attrs["data-trend-name"]
 
-        trends.append(trend_text
-        
+        trends.append(trend_text)
+
     return trends
