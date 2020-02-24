@@ -103,8 +103,8 @@ def get_tweets(query, pages=25):
                     for style in styles:
                         if style.startswith('background'):
                             tmp = style.split('/')[-1]
-                            video_id = tmp[:tmp.index('.jpg')] if 'jpg' in tmp \
-                                else tmp[:tmp.index('.png')] if 'png' in tmp else None
+                            video_id = tmp[:tmp.index('.jpg')] if '.jpg' in tmp \
+                                else tmp[:tmp.index('.png')] if '.png' in tmp else None
                             videos.append({'id': video_id})
 
                 tweets.append({
