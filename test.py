@@ -14,11 +14,11 @@ class TestFamilyUnderscore(unittest.TestCase):
         user = '__'
         tweets = list(get_tweets(query=user, pages=1))
 
-        self.assertTrue(tweets[0]['text'].__contains__('It is a gift to be alive in the time of Beyoncé'))
+        self.assertTrue(tweets[3]['text'].__contains__('It is a gift to be alive in the time of Beyoncé'))
 
     def test_child(self):
         user = '___'
-        tweets = list(get_tweets(query=user, pages=1))
+        tweets = list        (get_tweets(query=user, pages=1))
 
         self.assertEqual(tweets[1]['text'], '“Review mirror”')
 
@@ -27,9 +27,9 @@ class TestPages(unittest.TestCase):
 
     def test_25pages(self):
         """I don't know why but in some cases it only crawls 2~5 pages"""
-        user = 'kennethreitz'
+        user = 'gvanrossum'
         tweets = list(get_tweets(query=user, pages=25))
-        self.assertGreater(len(tweets), 486)
+        self.assertGreater(len(tweets), 498)
 
     def test_languages(self):
         user = 'fcbarcelona_jp'
