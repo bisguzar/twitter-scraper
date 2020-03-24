@@ -18,7 +18,7 @@ class TestFamilyUnderscore(unittest.TestCase):
 
     def test_child(self):
         user = '___'
-        tweets = list        (get_tweets(query=user, pages=1))
+        tweets = list(get_tweets(query=user, pages=1))
 
         self.assertEqual(tweets[1]['text'], '“Review mirror”')
 
