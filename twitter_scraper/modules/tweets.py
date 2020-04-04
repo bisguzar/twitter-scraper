@@ -1,6 +1,6 @@
 import re
 from requests_html import HTMLSession, HTML
-from datetime import datetime
+from datetime import datetime,timedelta
 from urllib.parse import quote
 from lxml.etree import ParserError
 import mechanicalsoup
@@ -10,7 +10,8 @@ session = HTMLSession()
 browser = mechanicalsoup.StatefulBrowser()
 browser.addheaders = [('User-agent', 'Firefox')]
 
-def get_tweets(query, pages=25):
+# timerange is a timedelta, letting you scrape tweets based on recency rather than pages
+def get_tweets(query, pages=25, timerange=None):
     """Gets tweets for a given user, via the Twitter frontend API."""
 
     after_part = f'include_available_features=1&include_entities=1&include_new_items_bar=true'
@@ -30,8 +31,9 @@ def get_tweets(query, pages=25):
         'Accept-Language': 'en-US'
     }
 
-    def gen_tweets(pages):
+    def gen_tweets(pages,timerange=None):
         r = session.get(url, headers=headers)
+        begin_time=datetime.now()
 
         while pages > 0:
             try:
@@ -47,6 +49,9 @@ def get_tweets(query, pages=25):
             dot = "."
             tweets = []
             for tweet in html.find('.stream-item'):
+                # skip pinned tweets if doing a recent tweet scrape
+                if timerange is not None and 'js-pinned' in tweet.attrs['class']:
+                    continue
                 # 10~11 html elements have `.stream-item` class and also their `data-item-type` is `tweet`
                 # but their content doesn't look like a tweet's content
                 try:
@@ -57,6 +62,10 @@ def get_tweets(query, pages=25):
                 tweet_id = tweet.attrs['data-item-id']
 
                 time = datetime.fromtimestamp(int(tweet.find('._timestamp')[0].attrs['data-time-ms']) / 1000.0)
+
+                if timerange is not None and begin_time-time>timerange:
+                    pages=0
+                    break
 
                 interactions = [
                     x.text
@@ -131,7 +140,7 @@ def get_tweets(query, pages=25):
             r = session.get(url, params={'max_position': last_tweet}, headers=headers)
             pages += -1
 
-    yield from gen_tweets(pages)
+    yield from gen_tweets(pages,timerange)
 
 # for searching:
 #
