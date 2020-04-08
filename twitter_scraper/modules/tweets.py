@@ -113,7 +113,7 @@ def get_tweets(query, pages=25):
 
                 tweets.append({
                     'tweetId': tweet_id,
-                    'tweet_url': tweet_url,
+                    'tweetUrl': tweet_url,
                     'username': username,
                     'isRetweet': is_retweet,
                     'time': time,
