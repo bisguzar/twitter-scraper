@@ -46,7 +46,7 @@ def get_tweets(query, pages=25):
             comma = ","
             dot = "."
             tweets = []
-            for tweet in html.find('.stream-item'):
+            for tweet, profile in zip(html.find('.stream-item'), html.find('.js-profile-popup-actionable')):
                 # 10~11 html elements have `.stream-item` class and also their `data-item-type` is `tweet`
                 # but their content doesn't look like a tweet's content
                 try:
@@ -55,6 +55,10 @@ def get_tweets(query, pages=25):
                     continue
 
                 tweet_id = tweet.attrs['data-item-id']
+
+                tweet_url = profile.attrs['data-permalink-path']
+
+                username = profile.attrs['data-screen-name']
 
                 time = datetime.fromtimestamp(int(tweet.find('._timestamp')[0].attrs['data-time-ms']) / 1000.0)
 
@@ -109,6 +113,8 @@ def get_tweets(query, pages=25):
 
                 tweets.append({
                     'tweetId': tweet_id,
+                    'tweet_url': tweet_url,
+                    'username': username,
                     'isRetweet': is_retweet,
                     'time': time,
                     'text': text,
