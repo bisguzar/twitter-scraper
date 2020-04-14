@@ -1,9 +1,10 @@
 import re
-from requests_html import HTML
+from requests_html import HTMLSession, HTML
 from datetime import datetime
 from urllib.parse import quote
 from lxml.etree import ParserError
 
+session = HTMLSession()
 
 def get_tweets(query, pages=25):
     """Gets tweets for a given user, via the Twitter frontend API."""
