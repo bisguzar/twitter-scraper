@@ -3,56 +3,52 @@ from twitter_scraper import get_tweets, get_trends
 
 
 class TestFamilyUnderscore(unittest.TestCase):
-
     def test_father(self):
-        user = '_'
+        user = "_"
         tweets = list(get_tweets(query=user, pages=1))
 
-        self.assertTrue(tweets[0]['text'].__contains__('Want to feel old?'))
+        self.assertTrue(tweets[0]["text"].__contains__("Want to feel old?"))
 
     def test_mother(self):
-        user = '__'
+        user = "__"
         tweets = list(get_tweets(query=user, pages=1))
 
-        self.assertTrue(tweets[3]['text'].__contains__('It is a gift to be alive in the time of Beyoncé'))
+        self.assertTrue(
+            tweets[3]["text"].__contains__(
+                "It is a gift to be alive in the time of Beyoncé"
+            )
+        )
 
     def test_child(self):
-        user = '___'
+        user = "___"
         tweets = list(get_tweets(query=user, pages=1))
 
-        self.assertEqual(tweets[1]['text'], '“Review mirror”')
+        self.assertEqual(tweets[1]["text"], "“Review mirror”")
 
 
 class TestPages(unittest.TestCase):
-
     def test_25pages(self):
         """I don't know why but in some cases it only crawls 2~5 pages"""
-        user = 'gvanrossum'
+        user = "gvanrossum"
         tweets = list(get_tweets(query=user, pages=25))
         self.assertGreater(len(tweets), 498)
 
     def test_languages(self):
-        user = 'fcbarcelona_jp'
+        user = "fcbarcelona_jp"
         tweets = list(get_tweets(query=user, pages=1))
-        self.assertIn('likes', tweets[0])
-        self.assertIsInstance(tweets[0]['replies'], int)
-        self.assertGreaterEqual(tweets[1]['retweets'], 0)
+        self.assertIn("likes", tweets[0])
+        self.assertIsInstance(tweets[0]["replies"], int)
+        self.assertGreaterEqual(tweets[1]["retweets"], 0)
 
 
 class TestTrends(unittest.TestCase):
     def test_returned(self):
-        self.assertIsInstance(
-            get_trends(),
-            list
-        )
+        self.assertIsInstance(get_trends(), list)
 
     def test_returned_string(self):
         for trend in get_trends():
-            self.assertIsInstance(
-                trend,
-                str
-            )
+            self.assertIsInstance(trend, str)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

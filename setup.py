@@ -12,18 +12,15 @@ from shutil import rmtree
 from setuptools import find_packages, setup, Command
 
 # Package meta-data.
-NAME = 'twitter-scraper'
-DESCRIPTION = 'Scrape the Twitter Frontend API without authentication.'
-URL = 'https://github.com/bisguzar/twitter-scraper'
-EMAIL = 'ben@bisguzar.com'
-AUTHOR = 'Bugra Isguzar' # Created by Kenneth Reitz
-VERSION = '0.4.1'
+NAME = "twitter-scraper"
+DESCRIPTION = "Scrape the Twitter Frontend API without authentication."
+URL = "https://github.com/bisguzar/twitter-scraper"
+EMAIL = "ben@bisguzar.com"
+AUTHOR = "Bugra Isguzar"  # Created by Kenneth Reitz
+VERSION = "0.4.1"
 
 # What packages are required for this module to be executed?
-REQUIRED = [
-    'requests-html',
-    'MechanicalSoup'
-]
+REQUIRED = ["requests-html", "MechanicalSoup"]
 
 # The rest you shouldn't have to touch too much :)
 # ------------------------------------------------
@@ -34,20 +31,20 @@ here = os.path.abspath(os.path.dirname(__file__))
 
 # Import the README and use it as the long-description.
 # Note: this will only work if 'README.md' is present in your MANIFEST.in file!
-with io.open(os.path.join(here, 'README.md'), encoding='utf-8') as f:
-    long_description = '\n' + f.read()
+with io.open(os.path.join(here, "README.md"), encoding="utf-8") as f:
+    long_description = "\n" + f.read()
 
 
 class UploadCommand(Command):
     """Support setup.py upload."""
 
-    description = 'Build and publish the package.'
+    description = "Build and publish the package."
     user_options = []
 
     @staticmethod
     def status(s):
         """Prints things in bold."""
-        print('\033[1m{0}\033[0m'.format(s))
+        print("\033[1m{0}\033[0m".format(s))
 
     def initialize_options(self):
         pass
@@ -57,16 +54,16 @@ class UploadCommand(Command):
 
     def run(self):
         try:
-            self.status('Removing previous builds…')
-            rmtree(os.path.join(here, 'dist'))
+            self.status("Removing previous builds…")
+            rmtree(os.path.join(here, "dist"))
         except OSError:
             pass
 
-        self.status('Building Source and Wheel (universal) distribution…')
-        os.system('{0} setup.py sdist bdist_wheel --universal'.format(sys.executable))
+        self.status("Building Source and Wheel (universal) distribution…")
+        os.system("{0} setup.py sdist bdist_wheel --universal".format(sys.executable))
 
-        self.status('Uploading the package to PyPi via Twine…')
-        os.system('twine upload dist/*')
+        self.status("Uploading the package to PyPi via Twine…")
+        os.system("twine upload dist/*")
 
         sys.exit()
 
@@ -81,25 +78,24 @@ setup(
     author=AUTHOR,
     author_email=EMAIL,
     url=URL,
-    packages=find_packages(exclude=["tests", "*.tests", "*.tests.*", "tests.*", "dist", "*.egg-info"]),
-
+    packages=find_packages(
+        exclude=["tests", "*.tests", "*.tests.*", "tests.*", "dist", "*.egg-info"]
+    ),
     # entry_points={
     #     'console_scripts': ['mycli=mymodule:cli'],
     # },
     install_requires=REQUIRED,
     include_package_data=True,
-    license='MIT',
+    license="MIT",
     classifiers=[
         # Trove classifiers
         # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
-        'License :: OSI Approved :: MIT License',
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: Implementation :: CPython',
-        'Programming Language :: Python :: Implementation :: PyPy'
+        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: Implementation :: CPython",
+        "Programming Language :: Python :: Implementation :: PyPy",
     ],
     # $ setup.py publish support.
-    cmdclass={
-        'upload': UploadCommand,
-    },
+    cmdclass={"upload": UploadCommand,},
 )
