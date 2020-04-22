@@ -64,33 +64,30 @@ class Profile:
 
         self.website = html.find(".ProfileHeaderCard-urlText")[0].text
 
-        # scrape profile stats
-        _stats_source = html.find("span[class=ProfileNav-value]")
-
         # get total tweets count if available
         try:
-            q = _stats_source[0].attrs["data-count"]
+            q = html.find('li[class*="--tweets"] span[data-count]')[0].attrs["data-count"]
             self.tweets_count = int(q)
         except:
             self.tweets_count = None
 
         # get total following count if available
         try:
-            q = _stats_source[1].attrs["data-count"]
+            q = html.find('li[class*="--following"] span[data-count]')[0].attrs["data-count"]
             self.following_count = int(q)
         except:
             self.following_count = None
 
         # get total follower count if available
         try:
-            q = _stats_source[2].attrs["data-count"]
+            q = html.find('li[class*="--followers"] span[data-count]')[0].attrs["data-count"]
             self.followers_count = int(q)
         except:
             self.followers_count = None
 
         # get total like count if available
         try:
-            q = _stats_source[3].attrs["data-count"]
+            q = html.find('li[class*="--favorites"] span[data-count]')[0].attrs["data-count"]
             self.likes_count = int(q)
         except:
             self.likes_count = None
