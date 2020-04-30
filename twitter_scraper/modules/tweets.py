@@ -55,6 +55,10 @@ def get_tweets(query, pages=25):
                     text = tweet.find(".tweet-text")[0].full_text
                 except IndexError:  # issue #50
                     continue
+                try:
+                    username = tweet.find('.username b')[0].full_text
+                except IndexError:  # issue #50
+                    continue
 
                 tweet_id = tweet.attrs["data-item-id"]
 
@@ -133,6 +137,7 @@ def get_tweets(query, pages=25):
                         "replies": replies,
                         "retweets": retweets,
                         "likes": likes,
+                        "username":username,
                         "entries": {
                             "hashtags": hashtags,
                             "urls": urls,
