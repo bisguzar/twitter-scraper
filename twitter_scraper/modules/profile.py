@@ -15,6 +15,7 @@ class Profile:
             - biography
             - website
             - profile_photo
+            - banner_photo
             - likes_count
             - tweets_count
             - followers_count
@@ -56,6 +57,8 @@ class Profile:
             self.birthday = None
 
         self.profile_photo = html.find(".ProfileAvatar-image")[0].attrs["src"]
+
+        self.banner_photo = html.find(".ProfileCanopy-headerBg img")[0].attrs["src"]
 
         page_title = html.find("title")[0].text
         self.name = page_title[: page_title.find("(")].strip()
@@ -100,6 +103,7 @@ class Profile:
             biography=self.biography,
             website=self.website,
             profile_photo=self.profile_photo,
+            banner_photo=self.banner_photo,
             likes_count=self.likes_count,
             tweets_count=self.tweets_count,
             followers_count=self.followers_count,
@@ -114,6 +118,7 @@ class Profile:
             "biography",
             "website",
             "profile_photo",
+            'banner_photo'
             "likes_count",
             "tweets_count",
             "followers_count",
