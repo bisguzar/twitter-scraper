@@ -89,10 +89,16 @@ def get_tweets(query, pages=25):
                     hashtag_node.full_text
                     for hashtag_node in tweet.find(".twitter-hashtag")
                 ]
+
                 urls = [
                     url_node.attrs["data-expanded-url"]
-                    for url_node in tweet.find("a.twitter-timeline-link:not(.u-hidden)")
+                    for url_node in (
+                        tweet.find("a.twitter-timeline-link:not(.u-hidden)") +
+                        tweet.find("[class='js-tweet-text-container'] a[data-expanded-url]")
+                    )
                 ]
+                urls = list(set(urls)) # delete duplicated elements
+
                 photos = [
                     photo_node.attrs["data-image-url"]
                     for photo_node in tweet.find(".AdaptiveMedia-photoContainer")
