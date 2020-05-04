@@ -58,8 +58,11 @@ class Profile:
 
         self.profile_photo = html.find(".ProfileAvatar-image")[0].attrs["src"]
 
-        self.banner_photo = html.find(".ProfileCanopy-headerBg img")[0].attrs["src"]
-
+        try:
+            self.banner_photo = html.find(".ProfileCanopy-headerBg img")[0].attrs["src"]
+        except KeyError:
+            self.banner_photo = None
+            
         page_title = html.find("title")[0].text
         self.name = page_title[: page_title.find("(")].strip()
 
