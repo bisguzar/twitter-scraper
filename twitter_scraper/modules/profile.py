@@ -12,6 +12,7 @@ class Profile:
             - name
             - username
             - birthday
+            - location
             - biography
             - website
             - profile_photo
@@ -47,7 +48,10 @@ class Profile:
             pass
 
         # TODO: Check what kind of exception raising if no location
+
         self.location = html.find(".ProfileHeaderCard-locationText")[0].text
+        if not self.location:
+            self.location = None
 
         # TODO: Check what kind of exception raising if no location
         self.birthday = html.find(".ProfileHeaderCard-birthdateText")[0].text
@@ -104,6 +108,7 @@ class Profile:
             username=self.username,
             birthday=self.birthday,
             biography=self.biography,
+            location=self.location,
             website=self.website,
             profile_photo=self.profile_photo,
             banner_photo=self.banner_photo,
@@ -118,6 +123,7 @@ class Profile:
             "name",
             "username",
             "birthday",
+            "location",
             "biography",
             "website",
             "profile_photo",
