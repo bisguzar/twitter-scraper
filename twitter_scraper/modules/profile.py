@@ -21,6 +21,7 @@ class Profile:
             - tweets_count
             - followers_count
             - following_count
+            - is_verified
     """
 
     def __init__(self, username):
@@ -47,13 +48,16 @@ class Profile:
         except ParserError:
             pass
 
-        # TODO: Check what kind of exception raising if no location
+        try:
+            self.is_verified = html.find(".ProfileHeaderCard-badges .Icon--verified")[0]
+            self.is_verified = True
+        except:
+            self.is_verified = False
 
         self.location = html.find(".ProfileHeaderCard-locationText")[0].text
         if not self.location:
             self.location = None
 
-        # TODO: Check what kind of exception raising if no location
         self.birthday = html.find(".ProfileHeaderCard-birthdateText")[0].text
         if self.birthday:
             self.birthday = self.birthday.replace("Born ", "")
@@ -66,7 +70,7 @@ class Profile:
             self.banner_photo = html.find(".ProfileCanopy-headerBg img")[0].attrs["src"]
         except KeyError:
             self.banner_photo = None
-            
+
         page_title = html.find("title")[0].text
         self.name = page_title[: page_title.find("(")].strip()
 
@@ -116,6 +120,7 @@ class Profile:
             tweets_count=self.tweets_count,
             followers_count=self.followers_count,
             following_count=self.following_count,
+            is_verified=self.is_verified,
         )
 
     def __dir__(self):
@@ -132,6 +137,7 @@ class Profile:
             "tweets_count",
             "followers_count",
             "following_count",
+            "is_verified"
         ]
 
     def __repr__(self):
