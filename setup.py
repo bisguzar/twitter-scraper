@@ -17,7 +17,7 @@ DESCRIPTION = "Scrape the Twitter Frontend API without authentication."
 URL = "https://github.com/bisguzar/twitter-scraper"
 EMAIL = "ben@bisguzar.com"
 AUTHOR = "Bugra Isguzar"  # Created by Kenneth Reitz
-VERSION = "0.4.1"
+VERSION = "0.4.2"
 
 # What packages are required for this module to be executed?
 REQUIRED = ["requests-html", "MechanicalSoup"]
