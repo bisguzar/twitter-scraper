@@ -22,6 +22,7 @@ class Profile:
             - followers_count
             - following_count
             - is_verified
+            - is_private
     """
 
     def __init__(self, username):
@@ -47,6 +48,12 @@ class Profile:
             )
         except ParserError:
             pass
+
+        try:
+            self.is_private = html.find(".ProfileHeaderCard-badges .Icon--protected")[0]
+            self.is_private = True
+        except:
+            self.is_private = False
 
         try:
             self.is_verified = html.find(".ProfileHeaderCard-badges .Icon--verified")[0]
@@ -81,7 +88,6 @@ class Profile:
         self.website = html.find(".ProfileHeaderCard-urlText")[0].text
         if not self.website:
             self.website = None
-
 
         # get total tweets count if available
         try:
@@ -126,6 +132,7 @@ class Profile:
             followers_count=self.followers_count,
             following_count=self.following_count,
             is_verified=self.is_verified,
+            is_private=self.is_private,
         )
 
     def __dir__(self):
@@ -142,7 +149,8 @@ class Profile:
             "tweets_count",
             "followers_count",
             "following_count",
-            "is_verified"
+            "is_verified",
+            "is_private"
         ]
 
     def __repr__(self):
