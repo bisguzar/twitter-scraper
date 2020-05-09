@@ -75,8 +75,13 @@ class Profile:
         self.name = page_title[: page_title.find("(")].strip()
 
         self.biography = html.find(".ProfileHeaderCard-bio")[0].text
+        if not self.birthday:
+            self.birthday = None
 
         self.website = html.find(".ProfileHeaderCard-urlText")[0].text
+        if not self.website:
+            self.website = None
+
 
         # get total tweets count if available
         try:
