@@ -62,7 +62,7 @@ def get_tweets(query, pages=25):
 
                 username = profile.attrs["data-screen-name"]
 
-                is_pinned = True if tweet.find("div.pinned") else False
+                is_pinned = bool(tweet.find("div.pinned"))
 
                 time = datetime.fromtimestamp(
                     int(tweet.find("._timestamp")[0].attrs["data-time-ms"]) / 1000.0
