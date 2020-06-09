@@ -12,6 +12,7 @@ class Profile:
             - name
             - username
             - birthday
+            - location
             - biography
             - website
             - profile_photo
@@ -20,6 +21,8 @@ class Profile:
             - tweets_count
             - followers_count
             - following_count
+            - is_verified
+            - is_private
     """
 
     def __init__(self, username):
@@ -46,10 +49,22 @@ class Profile:
         except ParserError:
             pass
 
-        # TODO: Check what kind of exception raising if no location
-        self.location = html.find(".ProfileHeaderCard-locationText")[0].text
+        try:
+            self.is_private = html.find(".ProfileHeaderCard-badges .Icon--protected")[0]
+            self.is_private = True
+        except:
+            self.is_private = False
 
-        # TODO: Check what kind of exception raising if no location
+        try:
+            self.is_verified = html.find(".ProfileHeaderCard-badges .Icon--verified")[0]
+            self.is_verified = True
+        except:
+            self.is_verified = False
+
+        self.location = html.find(".ProfileHeaderCard-locationText")[0].text
+        if not self.location:
+            self.location = None
+
         self.birthday = html.find(".ProfileHeaderCard-birthdateText")[0].text
         if self.birthday:
             self.birthday = self.birthday.replace("Born ", "")
@@ -62,13 +77,17 @@ class Profile:
             self.banner_photo = html.find(".ProfileCanopy-headerBg img")[0].attrs["src"]
         except KeyError:
             self.banner_photo = None
-            
+
         page_title = html.find("title")[0].text
         self.name = page_title[: page_title.find("(")].strip()
 
         self.biography = html.find(".ProfileHeaderCard-bio")[0].text
+        if not self.birthday:
+            self.birthday = None
 
         self.website = html.find(".ProfileHeaderCard-urlText")[0].text
+        if not self.website:
+            self.website = None
 
         # get total tweets count if available
         try:
@@ -104,6 +123,7 @@ class Profile:
             username=self.username,
             birthday=self.birthday,
             biography=self.biography,
+            location=self.location,
             website=self.website,
             profile_photo=self.profile_photo,
             banner_photo=self.banner_photo,
@@ -111,6 +131,8 @@ class Profile:
             tweets_count=self.tweets_count,
             followers_count=self.followers_count,
             following_count=self.following_count,
+            is_verified=self.is_verified,
+            is_private=self.is_private,
         )
 
     def __dir__(self):
@@ -118,6 +140,7 @@ class Profile:
             "name",
             "username",
             "birthday",
+            "location",
             "biography",
             "website",
             "profile_photo",
@@ -126,6 +149,8 @@ class Profile:
             "tweets_count",
             "followers_count",
             "following_count",
+            "is_verified",
+            "is_private"
         ]
 
     def __repr__(self):
