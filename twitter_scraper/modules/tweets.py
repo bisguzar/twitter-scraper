@@ -56,11 +56,14 @@ def get_tweets(query, pages=25):
                 except IndexError:  # issue #50
                     continue
 
+
                 tweet_id = tweet.attrs["data-item-id"]
 
                 tweet_url = profile.attrs["data-permalink-path"]
 
                 username = profile.attrs["data-screen-name"]
+
+                user_id = profile.attrs["data-user-id"]
 
                 is_pinned = bool(tweet.find("div.pinned"))
 
@@ -135,6 +138,7 @@ def get_tweets(query, pages=25):
                         "tweetId": tweet_id,
                         "tweetUrl": tweet_url,
                         "username": username,
+                        "userId": user_id,
                         "isRetweet": is_retweet,
                         "isPinned": is_pinned,
                         "time": time,
