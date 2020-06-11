@@ -23,6 +23,7 @@ class Profile:
             - following_count
             - is_verified
             - is_private
+            - user_id
     """
 
     def __init__(self, username):
@@ -81,6 +82,8 @@ class Profile:
         page_title = html.find("title")[0].text
         self.name = page_title[: page_title.find("(")].strip()
 
+        self.user_id = html.find(".ProfileNav")[0].attrs["data-user-id"]
+
         self.biography = html.find(".ProfileHeaderCard-bio")[0].text
         if not self.birthday:
             self.birthday = None
@@ -133,6 +136,7 @@ class Profile:
             following_count=self.following_count,
             is_verified=self.is_verified,
             is_private=self.is_private,
+            user_id=self.user_id
         )
 
     def __dir__(self):
@@ -150,7 +154,8 @@ class Profile:
             "followers_count",
             "following_count",
             "is_verified",
-            "is_private"
+            "is_private",
+            "user_id"
         ]
 
     def __repr__(self):

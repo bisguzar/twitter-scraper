@@ -62,10 +62,11 @@ It returns a dictionary for each tweet. Keys of the dictionary;
 | Key       | Type       | Description                                                      |
 |-----------|------------|------------------------------------------------------------------|
 | tweetId   | string     | Tweet's identifier, visit twitter.com/USERNAME/ID to view tweet. |
+| userId    | string     | Tweet's userId                                                   |
 | username  | string     | Tweet's username                                                 |
 | tweetUrl  | string     | Tweet's URL                                                      |
 | isRetweet | boolean    | True if it is a retweet, False otherwise                         |
-| isPinned | boolean    | True if it is a pinned tweet, False otherwise                         |
+| isPinned | boolean    | True if it is a pinned tweet, False otherwise                     |
 | time      | datetime   | Published date of tweet                                          |
 | text      | string     | Content of tweet                                                 |
 | replies   | integer    | Replies count of tweet                                           |
@@ -114,7 +115,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> from twitter_scraper import Profile
 >>> profile = Profile("bugraisguzar")
 >>> profile.to_dict()
-{'name': 'Buğra İşgüzar', 'username': 'bugraisguzar', 'birthday': None, 'biography': 'geliştirici@peptr', 'website': 'bisguzar.com', 'profile_photo': 'https://pbs.twimg.com/profile_images/1199305322474745861/nByxOcDZ_400x400.jpg', 'banner_photo': 'https://pbs.twimg.com/profile_banners/1019138658/1555346657/1500x500', 'likes_count': 2512, 'tweets_count': 756, 'followers_count': 483, 'following_count': 255, 'is_verified': False, 'is_private': False}
+{'name': 'Buğra İşgüzar', 'username': 'bugraisguzar', 'birthday': None, 'biography': 'geliştirici@peptr', 'website': 'bisguzar.com', 'profile_photo': 'https://pbs.twimg.com/profile_images/1199305322474745861/nByxOcDZ_400x400.jpg', 'banner_photo': 'https://pbs.twimg.com/profile_banners/1019138658/1555346657/1500x500', 'likes_count': 2512, 'tweets_count': 756, 'followers_count': 483, 'following_count': 255, 'is_verified': False, 'is_private': False, user_id: "1019138658"}
 ```
 
 
