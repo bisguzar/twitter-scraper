@@ -176,6 +176,7 @@ Thanks to the following people who have contributed to this project:
 * @bisguzar (maintainer)
 * @lionking6792
 * @ozanbayram
+* @sean-bailey
 
 
 
