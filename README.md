@@ -23,7 +23,7 @@ Linux and macOS:
 ```bash
 git clone https://github.com/bisguzar/twitter-scraper.git
 cd twitter-scraper
-sudo python3 setup.py install 
+sudo python3 setup.py install
 ```
 
 Also, you can install with PyPI.
@@ -38,21 +38,21 @@ Just import **twitter_scraper** and call functions!
 
 
 ### → function **get_tweets(query: str [, pages: int])** -> dictionary
-You can get tweets of profile or parse tweets from hashtag, **get_tweets** takes username or hashtag on first parameter as string and how much pages you want to scan on second parameter as integer. 
+You can get tweets of profile or parse tweets from hashtag, **get_tweets** takes username or hashtag on first parameter as string and how many pages you want to scan on second parameter as integer.
 
 #### Keep in mind:
 * First parameter need to start with #, number sign, if you want to get tweets from hashtag.
 * **pages** parameter is optional.
 
 ```python
-Python 3.7.3 (default, Mar 26 2019, 21:43:19) 
+Python 3.7.3 (default, Mar 26 2019, 21:43:19)
 [GCC 8.2.1 20181127] on linux
 Type "help", "copyright", "credits" or "license" for more information.
 >>> from twitter_scraper import get_tweets
->>> 
+>>>
 >>> for tweet in get_tweets('twitter', pages=1):
 ...     print(tweet['text'])
-... 
+...
 spooky vibe check
 …
 ```
@@ -78,7 +78,7 @@ It returns a dictionary for each tweet. Keys of the dictionary;
 You can get the Trends of your area simply by calling `get_trends()`. It will return a list of strings.
 
 ```python
-Python 3.7.3 (default, Mar 26 2019, 21:43:19) 
+Python 3.7.3 (default, Mar 26 2019, 21:43:19)
 [GCC 8.2.1 20181127] on linux
 Type "help", "copyright", "credits" or "license" for more information.
 >>> from twitter_scraper import get_trends
@@ -91,7 +91,7 @@ You can get personal information of a profile, like birthday and biography if ex
 
 
 ```python
-Python 3.7.3 (default, Mar 26 2019, 21:43:19) 
+Python 3.7.3 (default, Mar 26 2019, 21:43:19)
 [GCC 8.2.1 20181127] on linux
 Type "help", "copyright", "credits" or "license" for more information.
 >>> from twitter_scraper import Profile
@@ -109,7 +109,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 **to_dict** is a method of *Profile* class. Returns profile datas as Python dictionary.
 
 ```python
-Python 3.7.3 (default, Mar 26 2019, 21:43:19) 
+Python 3.7.3 (default, Mar 26 2019, 21:43:19)
 [GCC 8.2.1 20181127] on linux
 Type "help", "copyright", "credits" or "license" for more information.
 >>> from twitter_scraper import Profile
@@ -117,6 +117,43 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> profile.to_dict()
 {'name': 'Buğra İşgüzar', 'username': 'bugraisguzar', 'birthday': None, 'biography': 'geliştirici@peptr', 'website': 'bisguzar.com', 'profile_photo': 'https://pbs.twimg.com/profile_images/1199305322474745861/nByxOcDZ_400x400.jpg', 'banner_photo': 'https://pbs.twimg.com/profile_banners/1019138658/1555346657/1500x500', 'likes_count': 2512, 'tweets_count': 756, 'followers_count': 483, 'following_count': 255, 'is_verified': False, 'is_private': False, user_id: "1019138658"}
 ```
+
+
+### → function **search_tweets(query: str [, pages: int])** -> dictionary
+Use this function to perform general searches, **get_tweets** takes in any search string as first parameter and how many pages you want to scan on second parameter as integer.
+
+#### Keep in mind:
+* First parameter need to start with #, number sign, if you want to get tweets from hashtag.
+* **pages** parameter is optional.
+
+```python
+Python 3.7.3 (default, Mar 26 2019, 21:43:19)
+[GCC 8.2.1 20181127] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> from twitter_scraper import search_tweets
+>>>
+>>> for tweet in search_tweets('hello, world!', pages=1):
+...     print(tweet['text'])
+
+```
+
+It returns a dictionary for each tweet. Keys of the dictionary;
+
+| Key       | Type       | Description                                                      |
+|-----------|------------|------------------------------------------------------------------|
+| tweetId   | string     | Tweet's identifier, visit twitter.com/USERNAME/ID to view tweet. |
+| userId    | string     | Tweet's userId                                                   |
+| username  | string     | Tweet's username                                                 |
+| tweetUrl  | string     | Tweet's URL                                                      |
+| isRetweet | boolean    | True if it is a retweet, False otherwise                         |
+| isPinned | boolean    | True if it is a pinned tweet, False otherwise                     |
+| time      | datetime   | Published date of tweet                                          |
+| text      | string     | Content of tweet                                                 |
+| replies   | integer    | Replies count of tweet                                           |
+| retweets  | integer    | Retweet count of tweet                                           |
+| likes     | integer    | Like count of tweet                                              |
+| entries   | dictionary | Has hashtags, videos, photos, urls keys. Each one's value is list|
+
 
 
 

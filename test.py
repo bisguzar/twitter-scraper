@@ -1,5 +1,5 @@
 import unittest
-from twitter_scraper import get_tweets, get_trends
+from twitter_scraper import get_tweets, get_trends, search_tweets
 
 
 class TestFamilyUnderscore(unittest.TestCase):
@@ -39,6 +39,11 @@ class TestPages(unittest.TestCase):
         self.assertIn("likes", tweets[0])
         self.assertIsInstance(tweets[0]["replies"], int)
         self.assertGreaterEqual(tweets[1]["retweets"], 0)
+
+class TestSearch(unittest.TestCase):
+    def search_25pages(self):
+        tweets = list(get_tweets(query="hello, world!", pages=2))
+        self.assertGreater(len(tweets), 1)
 
 
 class TestTrends(unittest.TestCase):
