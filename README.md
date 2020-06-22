@@ -37,12 +37,11 @@ pip3 install twitter_scraper
 Just import **twitter_scraper** and call functions!
 
 
-### → function **get_tweets(query: str [, pages: int])** -> dictionary
-You can get tweets of profile or parse tweets from hashtag, **get_tweets** takes username or hashtag on first parameter as string and how many pages you want to scan on second parameter as integer.
+### → function **get_tweets(query: str, searchTerm: str, userName: str, [, pages: int])** -> dictionary
 
-#### Keep in mind:
-* First parameter need to start with #, number sign, if you want to get tweets from hashtag.
-* **pages** parameter is optional.
+To enable backwards compatibility with existing twitter_scraper API users, `query` can be directly addressed by using `query=` or by providing a positional string. You can get tweets of a given twitter user or parse tweets from a provided hashtag.
+
+Example:
 
 ```python
 Python 3.7.3 (default, Mar 26 2019, 21:43:19)
@@ -51,6 +50,37 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> from twitter_scraper import get_tweets
 >>>
 >>> for tweet in get_tweets('twitter', pages=1):
+...     print(tweet['text'])
+...
+Which will function identically to:
+>>> from twitter_scraper import get_tweets
+>>>
+>>> for tweet in get_tweets(query='twitter', pages=1):
+...     print(tweet['text'])
+...
+…
+```
+
+For new search functionality, the following arguments to the **get_tweets** function are now supported: `searchTerm` and `userName`.
+
+If `searchTerm` is specified, **get_tweets** will yield a dictionary for each tweet which contains the given term. The term can be any string.
+
+if `userName` is specified, **get_tweets** will yield a dictionary for each tweet from that user profile, similar to `query` without a hashtag. The userName can be any string.
+
+You can get tweets of profile or parse tweets from hashtag, **get_tweets** takes username or hashtag on first parameter as string and how many pages you want to scan on second parameter as integer.
+
+#### Keep in mind:
+* You must specify either `query`, `searchTerm`, or `userName`. If you supply one string, `query` will be used by default.
+* You cannot use more than one string, and you cannot specify more than one of the three search arguments (`query`,`searchTerm`,`userName`)
+* **pages** parameter is optional.
+
+```python
+Python 3.7.3 (default, Mar 26 2019, 21:43:19)
+[GCC 8.2.1 20181127] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> from twitter_scraper import get_tweets
+>>>
+>>> for tweet in get_tweets(userName='twitter', pages=1):
 ...     print(tweet['text'])
 ...
 spooky vibe check
@@ -117,45 +147,6 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> profile.to_dict()
 {'name': 'Buğra İşgüzar', 'username': 'bugraisguzar', 'birthday': None, 'biography': 'geliştirici@peptr', 'website': 'bisguzar.com', 'profile_photo': 'https://pbs.twimg.com/profile_images/1199305322474745861/nByxOcDZ_400x400.jpg', 'banner_photo': 'https://pbs.twimg.com/profile_banners/1019138658/1555346657/1500x500', 'likes_count': 2512, 'tweets_count': 756, 'followers_count': 483, 'following_count': 255, 'is_verified': False, 'is_private': False, user_id: "1019138658"}
 ```
-
-
-### → function **search_tweets(query: str [, pages: int])** -> dictionary
-Use this function to perform general searches, **get_tweets** takes in any search string as first parameter and how many pages you want to scan on second parameter as integer.
-
-#### Keep in mind:
-* First parameter need to start with #, number sign, if you want to get tweets from hashtag.
-* **pages** parameter is optional.
-
-```python
-Python 3.7.3 (default, Mar 26 2019, 21:43:19)
-[GCC 8.2.1 20181127] on linux
-Type "help", "copyright", "credits" or "license" for more information.
->>> from twitter_scraper import search_tweets
->>>
->>> for tweet in search_tweets('hello, world!', pages=1):
-...     print(tweet['text'])
-
-```
-
-It returns a dictionary for each tweet. Keys of the dictionary;
-
-| Key       | Type       | Description                                                      |
-|-----------|------------|------------------------------------------------------------------|
-| tweetId   | string     | Tweet's identifier, visit twitter.com/USERNAME/ID to view tweet. |
-| userId    | string     | Tweet's userId                                                   |
-| username  | string     | Tweet's username                                                 |
-| tweetUrl  | string     | Tweet's URL                                                      |
-| isRetweet | boolean    | True if it is a retweet, False otherwise                         |
-| isPinned | boolean    | True if it is a pinned tweet, False otherwise                     |
-| time      | datetime   | Published date of tweet                                          |
-| text      | string     | Content of tweet                                                 |
-| replies   | integer    | Replies count of tweet                                           |
-| retweets  | integer    | Retweet count of tweet                                           |
-| likes     | integer    | Like count of tweet                                              |
-| entries   | dictionary | Has hashtags, videos, photos, urls keys. Each one's value is list|
-
-
-
 
 ## Contributing to twitter-scraper
 To contribute to twitter-scraper, follow these steps:
