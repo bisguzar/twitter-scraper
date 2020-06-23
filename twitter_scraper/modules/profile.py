@@ -23,6 +23,8 @@ class Profile:
             - following_count
             - is_verified
             - is_private
+            -joined_date
+
     """
 
     def __init__(self, username):
@@ -64,6 +66,9 @@ class Profile:
         self.location = html.find(".ProfileHeaderCard-locationText")[0].text
         if not self.location:
             self.location = None
+
+        self.joined_date = html.find(".ProfileHeaderCard-joinDateText")[0].text.replace('Joined ', '')
+
 
         self.birthday = html.find(".ProfileHeaderCard-birthdateText")[0].text
         if self.birthday:
@@ -133,6 +138,7 @@ class Profile:
             following_count=self.following_count,
             is_verified=self.is_verified,
             is_private=self.is_private,
+            joined_date=self.joined_date
         )
 
     def __dir__(self):
@@ -150,7 +156,8 @@ class Profile:
             "followers_count",
             "following_count",
             "is_verified",
-            "is_private"
+            "is_private",
+            "joined_date",
         ]
 
     def __repr__(self):
