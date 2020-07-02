@@ -42,11 +42,11 @@ class TestPages(unittest.TestCase):
 
 class TestSearch(unittest.TestCase):
     def search_25pages(self):
-        tweets = list(get_tweets(searchTerm="hello, world!", pages=2))
+        tweets = list(get_tweets(search_term="hello, world!", pages=2))
         self.assertGreater(len(tweets), 1)
     def search_user(self):
         user = "gvanrossum"
-        tweets = list(get_tweets(userName=user, pages=2))
+        tweets = list(get_tweets(user_name=user, pages=2))
         self.assertGreater(len(tweets), 1)
 
 

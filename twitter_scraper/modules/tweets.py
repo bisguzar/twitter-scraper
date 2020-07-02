@@ -6,15 +6,15 @@ from lxml.etree import ParserError
 
 session = HTMLSession()
 
-def get_tweets(query=None, searchTerm=None, userName=None, pages=25):
+def get_tweets(query=None, search_term=None, user_name=None, pages=25):
     """Gets tweets for a given user, via the Twitter frontend API."""
     incompatibleSearch=False
     scenario=0
-    #first check the logic: both searchTerm and userName cannot be set:
-    if searchTerm and userName or searchTerm and query or  userName and query:
+    #first check the logic: both search_term and user_name cannot be set:
+    if search_term and user_name or search_term and query or  user_name and query:
         incompatibleSearch=True
         scenario=1
-    if not query and not searchTerm and not userName:
+    if not query and not search_term and not user_name:
         incompatibleSearch=True
         scenario=2
 
@@ -31,13 +31,13 @@ def get_tweets(query=None, searchTerm=None, userName=None, pages=25):
                 url = f"https://twitter.com/i/search/timeline?f=tweets&vertical=default&q={query}&src=tyah&reset_error_state=false&"
             else:
                 url = f"https://twitter.com/i/profiles/show/{query}/timeline/tweets?"
-        #now for the updates to enable specifically userName searching...
-        elif userName:
-            url = f"https://twitter.com/i/profiles/show/{userName}/timeline/tweets?"
+        #now for the updates to enable specifically user_name searching...
+        elif user_name:
+            url = f"https://twitter.com/i/profiles/show/{user_name}/timeline/tweets?"
         #and general search term compatibility
-        elif searchTerm:
-            searchTerm=quote(searchTerm)
-            url = f"https://twitter.com/i/search/timeline?f=tweets&vertical=default&q={searchTerm}&src=tyah&reset_error_state=false&"
+        elif search_term:
+            search_term=quote(search_term)
+            url = f"https://twitter.com/i/search/timeline?f=tweets&vertical=default&q={search_term}&src=tyah&reset_error_state=false&"
 
         url += after_part
 
@@ -197,9 +197,9 @@ def get_tweets(query=None, searchTerm=None, userName=None, pages=25):
     else:
         tupletoyield=None
         if scenario==1:
-            tupletoyield=("Please specify only one of either a searchTerm, a query, or a userName",)
+            tupletoyield=("Please specify only one of either a search_term, a query, or a user_name",)
         elif scenario == 2:
-            tupletoyield=("Please specify a query, a searchTerm, or a userName to check the tweets on.",)
+            tupletoyield=("Please specify a query, a search_term, or a user_name to check the tweets on.",)
         yield tupletoyield
 
 
