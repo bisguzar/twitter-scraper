@@ -75,7 +75,7 @@ class Profile:
         self.profile_photo = html.find(".ProfileAvatar-image")[0].attrs["src"]
 
         try:
-            self.banner_photo = html.find(".ProfileCanopy-headerBg img")[0].attrs["src"]
+            self.banner_photo = html.find(".css-9pa8cd img")[0].attrs["src"].replace("600x200", "1080x360")
         except KeyError:
             self.banner_photo = None
 
