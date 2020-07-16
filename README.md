@@ -37,7 +37,10 @@ pip3 install twitter_scraper
 Just import **twitter_scraper** and call functions!
 
 
-### → function **get_tweets(query: str, searchTerm: str, userName: str, [, pages: int])** -> dictionary
+### → function **get_tweets(query: str, search: str [, pages: int])** -> dictionary
+You can get tweets of profile or parse tweets from hashtag, **get_tweets** takes username or hashtag on first parameter as string and how many pages you want to scan on second parameter as integer.
+
+*get_tweets* function now supporting 'search' paramter for new search functionality.
 
 To enable backwards compatibility with existing twitter_scraper API users, `query` can be directly addressed by using `query=` or by providing a positional string. You can get tweets of a given twitter user or parse tweets from a provided hashtag.
 
@@ -61,18 +64,13 @@ Which will function identically to:
 …
 ```
 
-For new search functionality, the following arguments to the **get_tweets** function are now supported: `searchTerm` and `userName`.
+If `search` is specified, **get_tweets** will yield a dictionary for each tweet which contains the given term. The term can be any string, supporting search keywords of twitter.
 
-If `searchTerm` is specified, **get_tweets** will yield a dictionary for each tweet which contains the given term. The term can be any string.
-
-if `userName` is specified, **get_tweets** will yield a dictionary for each tweet from that user profile, similar to `query` without a hashtag. The userName can be any string.
-
-You can get tweets of profile or parse tweets from hashtag, **get_tweets** takes username or hashtag on first parameter as string and how many pages you want to scan on second parameter as integer.
 
 #### Keep in mind:
-* You must specify either `query`, `searchTerm`, or `userName`. If you supply one string, `query` will be used by default.
-* You cannot use more than one string, and you cannot specify more than one of the three search arguments (`query`,`searchTerm`,`userName`)
-* **pages** parameter is optional.
+* You must specify either `query`, or `search`. If you supply one string, `query` will be used by default.
+* You can not use more than one string, and you cannot specify more than one of the two search arguments (`query`,`search`)
+* **pages** parameter is optional, default is 25.
 
 ```python
 Python 3.7.3 (default, Mar 26 2019, 21:43:19)
@@ -80,10 +78,10 @@ Python 3.7.3 (default, Mar 26 2019, 21:43:19)
 Type "help", "copyright", "credits" or "license" for more information.
 >>> from twitter_scraper import get_tweets
 >>>
->>> for tweet in get_tweets(userName='twitter', pages=1):
+>>> for tweet in get_tweets(search='to:bugraisguzar', pages=1):
 ...     print(tweet['text'])
 ...
-spooky vibe check
+pic.twitter.com/h24Q6kWyX8
 …
 ```
 
