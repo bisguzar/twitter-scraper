@@ -29,13 +29,13 @@ def get_tweets(query, pages=25):
     }
 
     def gen_tweets(pages):
-        r = session.get(url + '&max_position', headers=headers)
+        request = session.get(url + '&max_position', headers=headers)
 
         while pages > 0:
             try:
-                r_json = r.json()
+                json_response = request.json()
                 html = HTML(
-                    html=r_json["items_html"], url="bunk", default_encoding="utf-8"
+                    html=json_response["items_html"], url="bunk", default_encoding="utf-8"
                 )
             except KeyError:
                 raise ValueError(
@@ -165,7 +165,7 @@ def get_tweets(query, pages=25):
                 )
                 yield tweet
 
-            r = session.get(url, params={"max_position": r_json['min_position']}, headers=headers)
+            request = session.get(url, params={"max_position": json_response['min_position']}, headers=headers)
             pages += -1
 
     yield from gen_tweets(pages)
