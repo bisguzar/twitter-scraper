@@ -166,7 +166,7 @@ Thanks to the following people who have contributed to this project:
 * @lionking6792
 * @ozanbayram
 * @sean-bailey
-
+* @xeliot
 
 
 ## Contact
