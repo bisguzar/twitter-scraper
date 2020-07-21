@@ -29,12 +29,13 @@ def get_tweets(query, pages=25):
     }
 
     def gen_tweets(pages):
-        r = session.get(url, headers=headers)
+        request = session.get(url + '&max_position', headers=headers)
 
         while pages > 0:
             try:
+                json_response = request.json()
                 html = HTML(
-                    html=r.json()["items_html"], url="bunk", default_encoding="utf-8"
+                    html=json_response["items_html"], url="bunk", default_encoding="utf-8"
                 )
             except KeyError:
                 raise ValueError(
@@ -56,11 +57,14 @@ def get_tweets(query, pages=25):
                 except IndexError:  # issue #50
                     continue
 
+
                 tweet_id = tweet.attrs["data-item-id"]
 
                 tweet_url = profile.attrs["data-permalink-path"]
 
                 username = profile.attrs["data-screen-name"]
+
+                user_id = profile.attrs["data-user-id"]
 
                 is_pinned = bool(tweet.find("div.pinned"))
 
@@ -135,6 +139,7 @@ def get_tweets(query, pages=25):
                         "tweetId": tweet_id,
                         "tweetUrl": tweet_url,
                         "username": username,
+                        "userId": user_id,
                         "isRetweet": is_retweet,
                         "isPinned": is_pinned,
                         "time": time,
@@ -160,7 +165,7 @@ def get_tweets(query, pages=25):
                 )
                 yield tweet
 
-            r = session.get(url, params={"max_position": last_tweet}, headers=headers)
+            request = session.get(url, params={"max_position": json_response['min_position']}, headers=headers)
             pages += -1
 
     yield from gen_tweets(pages)

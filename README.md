@@ -62,10 +62,11 @@ It returns a dictionary for each tweet. Keys of the dictionary;
 | Key       | Type       | Description                                                      |
 |-----------|------------|------------------------------------------------------------------|
 | tweetId   | string     | Tweet's identifier, visit twitter.com/USERNAME/ID to view tweet. |
+| userId    | string     | Tweet's userId                                                   |
 | username  | string     | Tweet's username                                                 |
 | tweetUrl  | string     | Tweet's URL                                                      |
 | isRetweet | boolean    | True if it is a retweet, False otherwise                         |
-| isPinned | boolean    | True if it is a pinned tweet, False otherwise                         |
+| isPinned | boolean    | True if it is a pinned tweet, False otherwise                     |
 | time      | datetime   | Published date of tweet                                          |
 | text      | string     | Content of tweet                                                 |
 | replies   | integer    | Replies count of tweet                                           |
@@ -118,7 +119,6 @@ Type "help", "copyright", "credits" or "license" for more information.
 ```
 
 
-
 ## Contributing to twitter-scraper
 To contribute to twitter-scraper, follow these steps:
 
@@ -138,7 +138,7 @@ Thanks to the following people who have contributed to this project:
 * @bisguzar (maintainer)
 * @lionking6792
 * @ozanbayram
-
+* @xeliot
 
 
 ## Contact

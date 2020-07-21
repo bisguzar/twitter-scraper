@@ -24,8 +24,8 @@ class Profile:
             - is_verified
             - is_private
             -joined_date
-
-    """
+            - user_id
+   """
 
     def __init__(self, username):
         headers = {
@@ -86,6 +86,8 @@ class Profile:
         page_title = html.find("title")[0].text
         self.name = page_title[: page_title.find("(")].strip()
 
+        self.user_id = html.find(".ProfileNav")[0].attrs["data-user-id"]
+
         self.biography = html.find(".ProfileHeaderCard-bio")[0].text
         if not self.birthday:
             self.birthday = None
@@ -139,6 +141,7 @@ class Profile:
             is_verified=self.is_verified,
             is_private=self.is_private,
             joined_date=self.joined_date
+            user_id=self.user_id
         )
 
     def __dir__(self):
@@ -158,6 +161,7 @@ class Profile:
             "is_verified",
             "is_private",
             "joined_date",
+            "user_id"
         ]
 
     def __repr__(self):
