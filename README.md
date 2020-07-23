@@ -134,9 +134,9 @@ Alternatively see the GitHub documentation on [creating a pull request](https://
 
 Thanks to the following people who have contributed to this project:
 
-* @kennethreitz (author)
 * @bisguzar (maintainer)
 * @lionking6792
+* @kennethreitz (author)
 * @ozanbayram
 * @xeliot
 

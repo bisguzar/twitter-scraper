@@ -23,7 +23,7 @@ class Profile:
             - following_count
             - is_verified
             - is_private
-            -joined_date
+            - joined_date
             - user_id
    """
 
@@ -68,7 +68,8 @@ class Profile:
             self.location = None
 
         self.joined_date = html.find(".ProfileHeaderCard-joinDateText")[0].text.replace('Joined ', '')
-
+        if not self.joined_date:
+            self.joined_date = None
 
         self.birthday = html.find(".ProfileHeaderCard-birthdateText")[0].text
         if self.birthday:
@@ -140,7 +141,7 @@ class Profile:
             following_count=self.following_count,
             is_verified=self.is_verified,
             is_private=self.is_private,
-            joined_date=self.joined_date
+            joined_date=self.joined_date,
             user_id=self.user_id
         )
 
