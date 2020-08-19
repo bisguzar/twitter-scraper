@@ -50,7 +50,8 @@ class Profile:
             )
         except ParserError:
             pass
-
+        
+        # TODO unfixed
         try:
             self.is_private = html.find(".ProfileHeaderCard-badges .Icon--protected")[0]
             self.is_private = True
@@ -73,6 +74,7 @@ class Profile:
         except:
             self.location = None
 
+        # TODO unfixed
         self.birthday = html.find(".ProfileHeaderCard-birthdateText")[0].text
         if self.birthday:
             self.birthday = self.birthday.replace("Born ", "")
@@ -142,6 +144,7 @@ class Profile:
             self.followers_count = None
 
         # get total like count if available
+        # TODO unfixed
         try:
             q = html.find('li[class*="--favorites"] span[data-count]')[0].attrs["data-count"]
             self.likes_count = int(q)
