@@ -51,7 +51,7 @@ class Profile:
         except ParserError:
             pass
         
-        # TODO unfixed
+        # TODO cannot find ProfileHeaderCard-badges
         try:
             self.is_private = html.find(".ProfileHeaderCard-badges .Icon--protected")[0]
             self.is_private = True
@@ -89,6 +89,7 @@ class Profile:
         except:
             self.profile_photo = None
 
+        # TODO cannot find ProfileCanopy-headerBg
         try:
             self.banner_photo = html.find(".ProfileCanopy-headerBg img")[0].attrs["src"]
         except:
