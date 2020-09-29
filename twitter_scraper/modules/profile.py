@@ -136,14 +136,8 @@ class Profile:
         try:
             stats_table = html.find('table.profile-stats')[0]
             stats = stats_table.find('td div.statnum')
-            if not stats:
-                self.tweets_count = None
-                self.following_count = None
-                self.followers_count = None
         except:
-            self.tweets_count = None
-            self.following_count = None
-            self.followers_count = None
+            self.stats = None
             
         # get total tweets count if available
         try:
