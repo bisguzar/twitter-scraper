@@ -40,6 +40,17 @@ class TestPages(unittest.TestCase):
         self.assertIsInstance(tweets[0]["replies"], int)
         self.assertGreaterEqual(tweets[1]["retweets"], 0)
 
+class TestSearch(unittest.TestCase):
+    def search_25pages(self):
+        tweets = list(get_tweets(search="hello, world!", pages=2))
+        self.assertGreater(len(tweets), 1)
+    def search_user(self):
+        user = "gvanrossum"
+        tweets = list(get_tweets(user, pages=2))
+        self.assertGreater(len(tweets), 1)
+
+
+
 
 class TestTrends(unittest.TestCase):
     def test_returned(self):

@@ -23,7 +23,7 @@ Linux and macOS:
 ```bash
 git clone https://github.com/bisguzar/twitter-scraper.git
 cd twitter-scraper
-sudo python3 setup.py install 
+sudo python3 setup.py install
 ```
 
 Also, you can install with PyPI.
@@ -37,23 +37,51 @@ pip3 install twitter_scraper
 Just import **twitter_scraper** and call functions!
 
 
-### → function **get_tweets(query: str [, pages: int])** -> dictionary
-You can get tweets of profile or parse tweets from hashtag, **get_tweets** takes username or hashtag on first parameter as string and how much pages you want to scan on second parameter as integer. 
+### → function **get_tweets(query: str, search: str [, pages: int])** -> dictionary
+You can get tweets of profile or parse tweets from hashtag, **get_tweets** takes username or hashtag on first parameter as string and how many pages you want to scan on second parameter as integer.
 
-#### Keep in mind:
-* First parameter need to start with #, number sign, if you want to get tweets from hashtag.
-* **pages** parameter is optional.
+*get_tweets* function now supporting 'search' paramter for new search functionality.
+
+To enable backwards compatibility with existing twitter_scraper API users, `query` can be directly addressed by using `query=` or by providing a positional string. You can get tweets of a given twitter user or parse tweets from a provided hashtag.
+
+Example:
 
 ```python
-Python 3.7.3 (default, Mar 26 2019, 21:43:19) 
+Python 3.7.3 (default, Mar 26 2019, 21:43:19)
 [GCC 8.2.1 20181127] on linux
 Type "help", "copyright", "credits" or "license" for more information.
 >>> from twitter_scraper import get_tweets
->>> 
+>>>
 >>> for tweet in get_tweets('twitter', pages=1):
 ...     print(tweet['text'])
-... 
-spooky vibe check
+...
+Which will function identically to:
+>>> from twitter_scraper import get_tweets
+>>>
+>>> for tweet in get_tweets(query='twitter', pages=1):
+...     print(tweet['text'])
+...
+…
+```
+
+If `search` is specified, **get_tweets** will yield a dictionary for each tweet which contains the given term. The term can be any string, supporting search keywords of twitter.
+
+
+#### Keep in mind:
+* You must specify either `query`, or `search`. If you supply one string, `query` will be used by default.
+* You can not use more than one string, and you cannot specify more than one of the two search arguments (`query`,`search`)
+* **pages** parameter is optional, default is 25.
+
+```python
+Python 3.7.3 (default, Mar 26 2019, 21:43:19)
+[GCC 8.2.1 20181127] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> from twitter_scraper import get_tweets
+>>>
+>>> for tweet in get_tweets(search='to:bugraisguzar', pages=1):
+...     print(tweet['text'])
+...
+pic.twitter.com/h24Q6kWyX8
 …
 ```
 
@@ -78,7 +106,7 @@ It returns a dictionary for each tweet. Keys of the dictionary;
 You can get the Trends of your area simply by calling `get_trends()`. It will return a list of strings.
 
 ```python
-Python 3.7.3 (default, Mar 26 2019, 21:43:19) 
+Python 3.7.3 (default, Mar 26 2019, 21:43:19)
 [GCC 8.2.1 20181127] on linux
 Type "help", "copyright", "credits" or "license" for more information.
 >>> from twitter_scraper import get_trends
@@ -91,7 +119,7 @@ You can get personal information of a profile, like birthday and biography if ex
 
 
 ```python
-Python 3.7.3 (default, Mar 26 2019, 21:43:19) 
+Python 3.7.3 (default, Mar 26 2019, 21:43:19)
 [GCC 8.2.1 20181127] on linux
 Type "help", "copyright", "credits" or "license" for more information.
 >>> from twitter_scraper import Profile
@@ -109,7 +137,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 **to_dict** is a method of *Profile* class. Returns profile datas as Python dictionary.
 
 ```python
-Python 3.7.3 (default, Mar 26 2019, 21:43:19) 
+Python 3.7.3 (default, Mar 26 2019, 21:43:19)
 [GCC 8.2.1 20181127] on linux
 Type "help", "copyright", "credits" or "license" for more information.
 >>> from twitter_scraper import Profile
@@ -117,8 +145,6 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> profile.to_dict()
 {'name': 'Buğra İşgüzar', 'username': 'bugraisguzar', 'birthday': None, 'biography': 'geliştirici@peptr', 'website': 'bisguzar.com', 'profile_photo': 'https://pbs.twimg.com/profile_images/1199305322474745861/nByxOcDZ_400x400.jpg', 'banner_photo': 'https://pbs.twimg.com/profile_banners/1019138658/1555346657/1500x500', 'likes_count': 2512, 'tweets_count': 756, 'followers_count': 483, 'following_count': 255, 'is_verified': False, 'is_private': False, user_id: "1019138658"}
 ```
-
-
 
 ## Contributing to twitter-scraper
 To contribute to twitter-scraper, follow these steps:
@@ -139,6 +165,7 @@ Thanks to the following people who have contributed to this project:
 * @bisguzar (maintainer)
 * @lionking6792
 * @ozanbayram
+* @sean-bailey
 * @xeliot
 
 

@@ -6,13 +6,22 @@ from lxml.etree import ParserError
 
 session = HTMLSession()
 
-def get_tweets(query, pages=25):
+def get_tweets(query=None, search=None, pages=25):
     """Gets tweets for a given user, via the Twitter frontend API."""
+
+    if not query and not search:
+        raise RuntimeError("Please specify a 'query' or a 'search' to check the tweets on.")
+    elif query and search:
+        raise RuntimeError("Please specify only one of either a 'search' or 'query'.")	
 
     after_part = (
         f"include_available_features=1&include_entities=1&include_new_items_bar=true"
     )
-    if query.startswith("#"):
+    if not query: # if query not exists, it's a search method
+        search_term=quote(search)
+        url = f"https://twitter.com/i/search/timeline?f=tweets&vertical=default&q={search_term}&src=tyah&reset_error_state=false&"
+
+    elif query.startswith("#"):
         query = quote(query)
         url = f"https://twitter.com/i/search/timeline?f=tweets&vertical=default&q={query}&src=tyah&reset_error_state=false&"
     else:
@@ -59,13 +68,9 @@ def get_tweets(query, pages=25):
 
 
                 tweet_id = tweet.attrs["data-item-id"]
-
                 tweet_url = profile.attrs["data-permalink-path"]
-
                 username = profile.attrs["data-screen-name"]
-
                 user_id = profile.attrs["data-user-id"]
-
                 is_pinned = bool(tweet.find("div.pinned"))
 
                 time = datetime.fromtimestamp(
