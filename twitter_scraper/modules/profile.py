@@ -30,7 +30,8 @@ class Profile:
         headers = {
             "Accept": "application/json, text/javascript, */*; q=0.01",
             "Referer": f"https://twitter.com/{username}",
-            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/603.3.8 (KHTML, like Gecko) Version/10.1.2 Safari/603.3.8",
+            # Getting mobile webpage by using Chrome < 38
+            "User-Agent": 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062 Safari/537.36',
             "X-Twitter-Active-User": "yes",
             "X-Requested-With": "XMLHttpRequest",
             "Accept-Language": "en-US",
@@ -39,7 +40,7 @@ class Profile:
         page = session.get(f"https://twitter.com/{username}", headers=headers)
         self.username = username
         self.__parse_profile(page)
-
+        
     def __parse_profile(self, page):
         try:
             html = HTML(html=page.text, url="bunk", default_encoding="utf-8")
@@ -49,76 +50,127 @@ class Profile:
             )
         except ParserError:
             pass
-
+        
+        # TODO cannot find ProfileHeaderCard-badges
         try:
             self.is_private = html.find(".ProfileHeaderCard-badges .Icon--protected")[0]
             self.is_private = True
-        except:
+        except Exception as e:
+            self.__failed_fetching('is_private', e)
             self.is_private = False
 
+        # blue badge
+        self.is_verified = True
         try:
-            self.is_verified = html.find(".ProfileHeaderCard-badges .Icon--verified")[0]
-            self.is_verified = True
-        except:
+            q = html.find("a.badge")[0]
+            if not q:
+                self.is_verified = False
+        except Exception as e:
+            self.__failed_fetching('is_verified', e)
             self.is_verified = False
 
-        self.location = html.find(".ProfileHeaderCard-locationText")[0].text
-        if not self.location:
+        try:
+            self.location = html.find('div.location')[0].text
+            if not self.location:
+                self.location = None
+        except Exception as e:
+            self.__failed_fetching('location', e)
             self.location = None
 
-        self.birthday = html.find(".ProfileHeaderCard-birthdateText")[0].text
-        if self.birthday:
-            self.birthday = self.birthday.replace("Born ", "")
-        else:
+        # TODO cannot find ProfileHeaderCard-birthdateText
+        try:
+            self.birthday = html.find(".ProfileHeaderCard-birthdateText")[0].text
+            if self.birthday:
+                self.birthday = self.birthday.replace("Born ", "")
+            else:
+                self.birthday = None
+        except Exception as e:
+            self.__failed_fetching('birthday', e)
             self.birthday = None
 
-        self.profile_photo = html.find(".ProfileAvatar-image")[0].attrs["src"]
+        try:
+            self.profile_photo = html.find("td.avatar img")[0].attrs["src"]
+        except Exception as e:
+            self.__failed_fetching('profile_photo', e)
+            self.profile_photo = None
 
+        # TODO cannot find ProfileCanopy-headerBg
         try:
             self.banner_photo = html.find(".ProfileCanopy-headerBg img")[0].attrs["src"]
-        except KeyError:
+        except Exception as e:
+            self.__failed_fetching('banner_photo', e)
             self.banner_photo = None
 
-        page_title = html.find("title")[0].text
-        self.name = page_title[: page_title.find("(")].strip()
+        try:
+            page_title = html.find("title")[0].text
+            self.name = page_title[: page_title.find("(")].strip()
+        except Exception as e:
+            self.__failed_fetching('name', e)
+            self.name = None
+        
+        try:
+            self.user_id = html.find(".ProfileNav")[0].attrs["data-user-id"]
+        except Exception as e:
+            self.__failed_fetching('user_id', e)
+            self.user_id = None
 
-        self.user_id = html.find(".ProfileNav")[0].attrs["data-user-id"]
+        try:
+            self.biography = html.find("div.bio div.dir-ltr")[0].text     
+            if not self.biography:
+                self.biography = None
+        except Exception as e:
+            self.__failed_fetching('biography', e)
+            self.biography = None
 
-        self.biography = html.find(".ProfileHeaderCard-bio")[0].text
-        if not self.birthday:
-            self.birthday = None
-
-        self.website = html.find(".ProfileHeaderCard-urlText")[0].text
-        if not self.website:
+        try:
+            self.website = html.find("div.url div.dir-ltr")[0].text
+            if not self.website:
+                self.website = None
+        except Exception as e:
+            self.__failed_fetching('website', e)
             self.website = None
 
+        # get stats table if available
+        stats_table = None
+        stats = None
+        try:
+            stats_table = html.find('table.profile-stats')[0]
+            stats = stats_table.find('td div.statnum')
+        except:
+            self.stats = None
+            
         # get total tweets count if available
         try:
-            q = html.find('li[class*="--tweets"] span[data-count]')[0].attrs["data-count"]
-            self.tweets_count = int(q)
-        except:
+            self.tweets_count = int(stats[0].text.replace(',',''))
+        except Exception as e:
+            self.__failed_fetching('tweets_count', e)
             self.tweets_count = None
 
         # get total following count if available
         try:
-            q = html.find('li[class*="--following"] span[data-count]')[0].attrs["data-count"]
-            self.following_count = int(q)
-        except:
+            self.following_count = int(stats[1].text.replace(',',''))
+        except Exception as e:
+            self.__failed_fetching('following_count', e)
             self.following_count = None
 
         # get total follower count if available
         try:
-            q = html.find('li[class*="--followers"] span[data-count]')[0].attrs["data-count"]
-            self.followers_count = int(q)
-        except:
+            self.followers_count = int(stats[2].text.replace(',',''))
+        except Exception as e:
+            self.__failed_fetching('followers_count', e)
             self.followers_count = None
 
         # get total like count if available
+        # TODO unfixed
         try:
             q = html.find('li[class*="--favorites"] span[data-count]')[0].attrs["data-count"]
             self.likes_count = int(q)
-        except:
+        except Exception as e:
+            self.__failed_fetching('likes_count', e)
             self.likes_count = None
+
+    def __failed_fetching(self, var: str, except_msg: str):
+        print(f'Unable to get {var} in html, exception - {except_msg}')
 
     def to_dict(self):
         return dict(
