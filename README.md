@@ -115,9 +115,8 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> from twitter_scraper import Profile
 >>> profile = Profile("bugraisguzar")
 >>> profile.to_dict()
-{'name': 'Buğra İşgüzar', 'username': 'bugraisguzar', 'birthday': None, 'biography': 'geliştirici@peptr', 'website': 'bisguzar.com', 'profile_photo': 'https://pbs.twimg.com/profile_images/1199305322474745861/nByxOcDZ_400x400.jpg', 'banner_photo': 'https://pbs.twimg.com/profile_banners/1019138658/1555346657/1500x500', 'likes_count': 2512, 'tweets_count': 756, 'followers_count': 483, 'following_count': 255, 'is_verified': False, 'is_private': False, user_id: "1019138658"}
+{'name': 'Buğra İşgüzar', 'username': 'bugraisguzar', 'birthday': None, 'biography': 'geliştirici@peptr', 'website': 'bisguzar.com', 'profile_photo': 'https://pbs.twimg.com/profile_images/1199305322474745861/nByxOcDZ_400x400.jpg', 'banner_photo': 'https://pbs.twimg.com/profile_banners/1019138658/1555346657/1500x500', 'likes_count': 2512, 'tweets_count': 756, 'followers_count': 483, 'following_count': 255, 'is_verified': False, 'is_private': False, 'user_id': '1019138658', 'joined_date': 'December 2012'}
 ```
-
 
 
 ## Contributing to twitter-scraper
@@ -135,9 +134,9 @@ Alternatively see the GitHub documentation on [creating a pull request](https://
 
 Thanks to the following people who have contributed to this project:
 
-* @kennethreitz (author)
 * @bisguzar (maintainer)
 * @lionking6792
+* @kennethreitz (author)
 * @ozanbayram
 * @xeliot
 
