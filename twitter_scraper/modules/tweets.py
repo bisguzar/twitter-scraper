@@ -159,9 +159,9 @@ def get_tweets(query, pages=25):
             last_tweet = html.find(".stream-item")[-1].attrs["data-item-id"]
 
             for tweet in tweets:
-                tweet["text"] = re.sub(r"(\S)http", "\g<1> http", tweet["text"], 1)
+                tweet["text"] = re.sub(r"(\S)http", r"\g<1> http", tweet["text"], 1)
                 tweet["text"] = re.sub(
-                    r"(\S)pic\.twitter", "\g<1> pic.twitter", tweet["text"], 1
+                    r"(\S)pic\.twitter", r"\g<1> pic.twitter", tweet["text"], 1
                 )
                 yield tweet
 
